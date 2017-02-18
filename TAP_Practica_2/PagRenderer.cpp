@@ -131,9 +131,9 @@ PagRenderer::PagRenderer(){
 
 void PagRenderer::cargarEscena() {
 	//Cargamos las luces
-	lights.push_back(PagLight(glm::vec3(30.0, 90.0, -90.0), glm::vec3(-0.23, -0.69, 0.69), 0.2f, 0.5f, 0.3f, glm::vec3(1.0, 1.0, 1.0), 20.0f, 5.0f, 50.0f));
-	lights.push_back(PagLight(glm::vec3(60.0, 90.0, 0.0), 0.1f, 0.125f, 0.075f, glm::vec3(1.0, 1.0, 1.0), 'P', 50.0f));
-	lights.push_back(PagLight(glm::vec3(-60.0, 90.0, 0.0), 0.1f, 0.125f, 0.075f, glm::vec3(1.0, 1.0, 1.0), 'P', 50.0f));
+	lights.push_back(PagLight(glm::vec3(30.0, 90.0, -90.0), glm::vec3(-0.23, -0.69, 0.69), 0.2f, 0.5f, 0.3f, 20.0f, 5.0f, 50.0f));
+	lights.push_back(PagLight(glm::vec3(60.0, 90.0, 0.0), 0.1f, 0.125f, 0.075f, 'P', 50.0f));
+	lights.push_back(PagLight(glm::vec3(-60.0, 90.0, 0.0), 0.1f, 0.125f, 0.075f, 'P', 50.0f));
 
 	//Creamos las Geometrias y Topologias de los diferentes objetos que componen la escena
 	objects.createObject();
@@ -229,7 +229,6 @@ void PagRenderer::cargarEscena() {
 
 				if (shadersNames.find(name2) == shadersNames.end()) {
 					nombreShaders.push_back(name2);
-					std::cout << "[" << nombreShaders.size() - 1 << "] - " << name2 << std::endl;
 					shadersNames.insert(name2);
 				}
 
@@ -239,13 +238,8 @@ void PagRenderer::cargarEscena() {
 	}
 	closedir(dirS);
 
-	int s;
-	std::cout << "Escoja el nº del shader a usar: ";
-	std::cin >> s;
+	nombreShader = nombreShaders[0];
 
-	nombreShader = nombreShaders[s];
-
-	if (nombreShader == "Texture" || nombreShader == "ADS" || nombreShader == "Bump" || nombreShader == "Shadow") {
 		for (int i = 0; i < lights.size(); i++) {
 			std::string name = nombreShader + "-";
 			char l = lights[i].light;
@@ -253,32 +247,10 @@ void PagRenderer::cargarEscena() {
 			PagShaderProgram* shader = new PagShaderProgram();
 			shader->createShaderProgram(name.c_str());
 			shadersUtilizados.push_back(std::pair<std::string, PagShaderProgram*>(name, shader));
-			lights[i].crearFBOShadowsMap(i, textures.size() + i);
 		}
-		if(nombreShader == "Bump") {
-			nombreShader = "Texture";
-			for (int i = 0; i < lights.size(); i++) {
-				std::string name = nombreShader + "-";
-				char l = lights[i].light;
-				name += l;
-				PagShaderProgram* shader = new PagShaderProgram();
-				shader->createShaderProgram(name.c_str());
-				shadersUtilizadosAux.push_back(std::pair<std::string, PagShaderProgram*>(name, shader));
-			}
-			nombreShader = "Bump";
-		}
-		if (nombreShader == "Shadow") {
-			std::string name = nombreShader + "-Inicio";
-			PagShaderProgram* shader = new PagShaderProgram();
-			shader->createShaderProgram(name.c_str());
-			shadersUtilizados.push_back(std::pair<std::string, PagShaderProgram*>(name, shader));
-		}
-	}
 }
 
 void PagRenderer::pintarEscena(glm::mat4 ViewMatrix, glm::mat4 ProjectionMatrix) {
-
-	if (nombreShader == "Texture" || nombreShader == "ADS" || nombreShader == "Bump") {
 
 		glEnable(GLenum(GL_BLEND));
 		glDepthFunc(GLenum(GL_LEQUAL));
@@ -291,69 +263,6 @@ void PagRenderer::pintarEscena(glm::mat4 ViewMatrix, glm::mat4 ProjectionMatrix)
 			objects.draw(ViewMatrix, ProjectionMatrix, this, shadersUtilizados[i], &lights[i], i);
 			objects2.draw(ViewMatrix, ProjectionMatrix, this, shadersUtilizados[i], &lights[i], i);
 		}
-	}
-	else if (nombreShader == "Shadow") {
-
-		for (int i = 0; i < lights.size(); i++) {
-			if (lights[i].needRecalcShadows) {
-	
-				glBindFramebuffer(GL_FRAMEBUFFER, lights[i].shadowFBO);
-				glActiveTexture(GL_TEXTURE2);
-				glBindTexture(GL_TEXTURE_2D, lights[i].depthTex);
-				glClear(GL_DEPTH_BUFFER_BIT);
-				glViewport(0, 0, lights[i].shadowMapWidth, lights[i].shadowMapHeight);
-				glEnable(GL_DEPTH_TEST);
-				glDepthFunc(GL_LESS);
-				glPrimitiveRestartIndex(0xFFFF);
-				glEnable(GL_PRIMITIVE_RESTART);
-				glEnable(GL_CULL_FACE);
-				glCullFace(GL_FRONT);
-
-				objects.draw(ViewMatrix, ProjectionMatrix, this, shadersUtilizados[lights.size()], NULL, lights.size());
-				objects2.draw(ViewMatrix, ProjectionMatrix, this, shadersUtilizados[lights.size()], NULL, lights.size());
-
-				lights[i].needRecalcShadows = false;
-			}
-		}
-
-		glClearColor(1.0, 1.0, 1.0, 1.0);
-		glEnable(GL_MULTISAMPLE);
-		glEnable(GL_DEPTH_TEST);
-		glPrimitiveRestartIndex(0xFFFF);
-		glEnable(GL_PRIMITIVE_RESTART);
-		glEnable(GL_BLEND);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glEnable(GL_CULL_FACE);
-		glCullFace(GL_BACK);
-		glViewport(0, 0, 1024, 768);
-		shadowBias = glm::mat4(0.5, 0.0, 0.0, 0.0,
-							   0.0, 0.5, 0.0, 0.0,
-							   0.0, 0.0, 0.5, 0.0,
-							   0.5, 0.5, 0.5, 1.0);
-		glDepthFunc(GL_LEQUAL);
-		bool firsLight = true;
-
-		for (int i = 0; i < lights.size(); i++) {
-
-			if (firsLight){
-				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-				firsLight = false;
-			}
-			else {
-				glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-			}
-
-			depthTex = lights[i].depthTex;
-			objects.draw(ViewMatrix, ProjectionMatrix, this, shadersUtilizados[i], &lights[i], i);
-			objects2.draw(ViewMatrix, ProjectionMatrix, this, shadersUtilizados[i], &lights[i], i);
-
-		}
-	}
-	else {
-		objects.draw(ViewMatrix, ProjectionMatrix, this, shadersUtilizados[0], NULL, 0);
-		objects2.draw(ViewMatrix, ProjectionMatrix, this, shadersUtilizados[0], NULL, 0);
-	}
-
 }
 
 PagRenderer::~PagRenderer() {

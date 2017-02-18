@@ -4,6 +4,9 @@
 PagRenderer escena;
 PagCamera camera;
 
+/**
+* Callbacks que manjean los movimientos de la camara
+*/
 static void cursor_position_callback(GLFWwindow* window, double xpos, double ypos) {
 	camera.girar(xpos, ypos);
 }
@@ -22,7 +25,8 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 }
 
 void scroll(GLFWwindow* window, double x, double y) {
-	camera.zoom(y * -1);
+	if(y < 0)camera.zoom(-5);
+	else camera.zoom(5);
 }
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
@@ -60,6 +64,8 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		camera.mover(-1.0, 0.0, 0.0);
 	}
 }
+
+
 
 int main(int argc, char** argv) {
 
@@ -108,7 +114,7 @@ int main(int argc, char** argv) {
 
 	glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
 
-	//Callbacks Camara & Teclado
+	//Definimos Callbacks Camara & Teclado
 	glfwSetCursorPosCallback(window, cursor_position_callback);
 	glfwSetMouseButtonCallback(window, mouse_button_callback);
 	glfwSetScrollCallback(window, scroll);

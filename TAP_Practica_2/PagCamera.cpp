@@ -4,7 +4,7 @@
 
 #include <math.h>
 
-#define PI 3.14159265358979323846
+#define PI 3.1415926535
 
 /**
  * Constructor por defecto de la clase PagCamera
@@ -16,8 +16,11 @@ PagCamera::PagCamera() : mouseX(0), mouseY(0), rotates(false), truck(false), orb
 	xLookAt = 0.0;
 	yLookAt = 0.0;
 	zLookAt = 0.0;
-	fovY = 45.0f;
-	ProjectionMatrix *= glm::perspective(fovY, 4.0f / 3.0f, 0.1f, 2000.f);
+
+	fovY = 1.22173f;
+
+	//fovY = 45.0f;
+	ProjectionMatrix *= glm::perspective(fovY, 4.0f / 3.0f, 1.0f, 400.0f);
 	ViewMatrix *= glm::lookAt(glm::vec3(x, y, z),
 		glm::vec3(xLookAt, yLookAt, zLookAt), glm::vec3(0.0, 1.0, 0.0));
 }
@@ -33,8 +36,11 @@ orbit(false), ejecutandoOrbit(false), indOrbit(0), zOrbit(0) {
 	xLookAt = 0.0;
 	yLookAt = 0.0;
 	zLookAt = 0.0;
-	fovY = 45.0f;
-	ProjectionMatrix *= glm::perspective(fovY, 4.0f / 3.0f, 0.1f, 2000.f);
+
+	fovY = 1.22173f;
+
+	//fovY = 45.0f;
+	ProjectionMatrix *= glm::perspective(fovY, 4.0f / 3.0f, 1.0f, 400.0f);
 	ViewMatrix *= glm::lookAt(glm::vec3(x, y, z),
 		glm::vec3(xLookAt, yLookAt, zLookAt), glm::vec3(0.0, 1.0, 0.0));
 }
@@ -60,18 +66,19 @@ void PagCamera::mover(double movX, double movY, double movZ){
 void PagCamera::girar(double movX, double movY) {
 	if (!orbit) {
 		if (rotates) {
+
 			double xtemp = mouseX - movX;
-			xtemp = xtemp / 2;
 			mouseX = movX;
-			xLookAt += xtemp;
-			zLookAt -= xtemp;
 			double ytemp = mouseY - movY;
-			ytemp = ytemp / 2;
-			yLookAt += ytemp;
 			mouseY = movY;
 
-			ViewMatrix = glm::lookAt(glm::vec3(x, y, z),
-				glm::vec3(xLookAt, yLookAt, zLookAt), glm::vec3(0.0, 1.0, 0.0));
+			ViewMatrix *= glm::translate(glm::mat4(), glm::vec3(x, y, z));
+
+			ViewMatrix *= glm::rotate(glm::mat4(), float(ytemp / 100.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+
+			ViewMatrix *= glm::rotate(glm::mat4(), float(-xtemp / 100.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+
+			ViewMatrix *= glm::translate(glm::mat4(), glm::vec3(-x, -y, -z));
 		}else {
 			mouseX = movX;
 			mouseY = movY;
@@ -90,7 +97,7 @@ void PagCamera::movOrbit() {
 		xLookAt = 0.0;
 		yLookAt = 0.0;
 		zLookAt = 0.0;
-		ProjectionMatrix = glm::perspective(fovY, 4.0f / 3.0f, 0.1f, 2000.f);
+		ProjectionMatrix = glm::perspective(fovY, 4.0f / 3.0f, 1.0f, 400.0f);
 		ViewMatrix = glm::lookAt(glm::vec3(x, y, z),
 			glm::vec3(xLookAt, yLookAt, zLookAt), glm::vec3(0.0, 1.0, 0.0));
 		ejecutandoOrbit = true;
@@ -118,9 +125,13 @@ void PagCamera::resetCamera() {
 * Movimiento Orbit de la Camera
 */
 void PagCamera::zoom(double _zoom) {
-	_zoom = _zoom / 50;
-	if(fovY + _zoom >= 0.1) fovY += _zoom;
-	ProjectionMatrix = glm::perspective(fovY, 4.0f / 3.0f, 0.1f, 2000.f);
+
+	double comprobacionZoom = fovY - _zoom * 0.0299;
+	if(comprobacionZoom <= 3 && comprobacionZoom >= 0.1) fovY -= _zoom * 0.0299;
+
+	std::cout << fovY << std::endl;
+
+	ProjectionMatrix = glm::perspective(fovY, 4.0f / 3.0f, 1.0f, 400.0f);
 }
 
 PagCamera::~PagCamera() {}

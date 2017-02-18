@@ -3,7 +3,7 @@
 #include "Structs.h"
 #include "Pag3DElement.h"
 
-#include <glew.h> //glew SIEMPRE va antes del glfw
+#include <glew.h>
 #include <glfw3.h>
 #include "gtc\matrix_transform.hpp"
 #include "PagRevolutionObject.h"

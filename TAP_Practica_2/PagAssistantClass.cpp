@@ -5,8 +5,16 @@
 
 #include <iostream>
 #include <windows.h>
+#include <math.h>
 
-#define Epsilon 0.000001
+#define Epsilon 0.00001
+
+/**
+ * Funcion que compara dos numeros en funcion de una variacion Epsilon
+ */
+bool iguales(double a, double b) {
+	return (abs(a - b) < Epsilon);
+}
 
 /**
  * Constructor por defectos de PagAssistantClass
@@ -61,14 +69,14 @@ PagRevolutionObject PagAssistantClass::leerDatos(Structs::Fichero _fichero) cons
 			puntos.x = stof(linea_actual.substr(0, coma));
 
 			if ((puntos.x < 0) ||
-				(puntos.x == 0 && (i > 0 && i < numPuntosPerfilOriginal - 1))) {
+				(iguales(puntos.x,0) && (i > 0 && i < numPuntosPerfilOriginal - 1))) {
 				numPuntosPerfilOriginal--;
 				i--;
 			}
 			else {
-				if (puntos.x == 0) {
-					if (i == 0) flagBottomTape = true;
-					if (i == numPuntosPerfilOriginal - 1) flagTopTape = true;
+				if (iguales(puntos.x, 0)) {
+					if (iguales(i, 0)) flagBottomTape = true;
+					if (iguales(i, numPuntosPerfilOriginal - 1)) flagTopTape = true;
 				}
 
 				puntos.y = stof(linea_actual.substr(coma + 1, linea_actual.length()));

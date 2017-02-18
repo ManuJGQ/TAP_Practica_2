@@ -1,6 +1,6 @@
 #pragma once
 
-#include <glew.h> //glew SIEMPRE va antes del glfw
+#include <glew.h>
 #include <glfw3.h>
 #include "gtc\matrix_transform.hpp"
 

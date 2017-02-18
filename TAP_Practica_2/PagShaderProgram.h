@@ -1,7 +1,7 @@
 #pragma once
 
 #include <iostream>
-#include <glew.h> //glew SIEMPRE va antes del glfw
+#include <glew.h> 
 #include <fstream>
 #include <sstream>
 #include "glm.hpp"
