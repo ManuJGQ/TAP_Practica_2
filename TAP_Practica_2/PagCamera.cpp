@@ -47,6 +47,9 @@ orbit(false), ejecutandoOrbit(false), indOrbit(0), zOrbit(0) {
 
 void PagCamera::mover(double movX, double movY, double movZ){
 	if(!orbit) {
+
+		ViewMatrix *= glm::translate(glm::mat4(), glm::vec3(x, y, z));
+
 		x -= movX;
 		xLookAt -= movX;
 		y += movY;
@@ -55,8 +58,7 @@ void PagCamera::mover(double movX, double movY, double movZ){
 			zLookAt += movZ;
 			z += movZ;
 		}
-		ViewMatrix = glm::lookAt(glm::vec3(x, y, z),
-			glm::vec3(xLookAt, yLookAt, zLookAt), glm::vec3(0.0, 1.0, 0.0));
+		ViewMatrix *= glm::translate(glm::mat4(), glm::vec3(-x, -y, -z));
 	}
 }
 
@@ -74,9 +76,9 @@ void PagCamera::girar(double movX, double movY) {
 
 			ViewMatrix *= glm::translate(glm::mat4(), glm::vec3(x, y, z));
 
-			ViewMatrix *= glm::rotate(glm::mat4(), float(ytemp / 100.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+			if(abs(ytemp) > abs(xtemp)) ViewMatrix *= glm::rotate(glm::mat4(), float(ytemp / 100.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 
-			ViewMatrix *= glm::rotate(glm::mat4(), float(-xtemp / 100.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+			if (abs(ytemp) < abs(xtemp)) ViewMatrix *= glm::rotate(glm::mat4(), float(-xtemp / 100.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
 			ViewMatrix *= glm::translate(glm::mat4(), glm::vec3(-x, -y, -z));
 		}else {
@@ -128,8 +130,6 @@ void PagCamera::zoom(double _zoom) {
 
 	double comprobacionZoom = fovY - _zoom * 0.0299;
 	if(comprobacionZoom <= 3 && comprobacionZoom >= 0.1) fovY -= _zoom * 0.0299;
-
-	std::cout << fovY << std::endl;
 
 	ProjectionMatrix = glm::perspective(fovY, 4.0f / 3.0f, 1.0f, 400.0f);
 }
