@@ -152,6 +152,7 @@
     <ClInclude Include="PagTable.h" />
     <ClInclude Include="PagTexture.h" />
     <ClInclude Include="Structs.h" />
+    <ClInclude Include="TapBezier.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -168,6 +169,7 @@
     <ClCompile Include="PagSubdivisionProfile.cpp" />
     <ClCompile Include="PagTable.cpp" />
     <ClCompile Include="PagTexture.cpp" />
+    <ClCompile Include="TapBezier.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
