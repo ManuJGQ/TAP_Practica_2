@@ -77,56 +77,6 @@ PagRenderer::PagRenderer(){
 	//Creamos la jerarquia de objetos
 	objects = Pag3DGroup(ficheros, perfiles);
 
-	j = perfiles;
-	while (j != 0) {
-		std::string archivo;
-		if (j == 1)archivo = "b1-in.txt";
-		if (j == 2)archivo = "b2-in.txt";
-		if (j == 3)archivo = "b3-in.txt";
-		if (j == 4)archivo = "b4-in.txt";
-		if (j == 5)archivo = "b5-in.txt";
-		if (j == 6)archivo = "b6-in.txt";
-		if (j == 7)archivo = "b7-in.txt";
-		if (j == 8)archivo = "b8-in.txt";
-
-		std::string _nTextura;
-
-		if (j == 1)_nTextura = "bb8";
-		if (j == 2)_nTextura = "bb8-c2";
-		if (j == 3)_nTextura = "bb8-ca";
-		if (j == 4)_nTextura = "bb8-ca-top";
-		if (j == 5)_nTextura = "bb8-eye";
-		if (j == 6)_nTextura = "bb8-eye";
-		if (j == 7)_nTextura = "bb8-eye";
-		if (j == 8)_nTextura = "bb8-eye";
-
-
-		std::string _nBump;
-
-		if (j == 1)_nBump = "bump1";
-		if (j == 2)_nBump = "bump3";
-		if (j == 3)_nBump = "bump2";
-		if (j == 4)_nBump = "bump3";
-		if (j == 5)_nBump = "bump3";
-		if (j == 6)_nBump = "bump3";
-		if (j == 7)_nBump = "bump3";
-		if (j == 8)_nBump = "bump3";
-
-
-		Structs::Fichero _fichero;
-		_fichero.nombreAlumno = archivo;
-		_fichero.archivoIN = archivo;
-		_fichero.nTextura = _nTextura;
-		_fichero.nBump = _nBump;
-		_fichero.nSemiTrasnparente = "Suciedad";
-		ficheros[perfiles - j] = _fichero;
-		j--;
-	}
-
-	for (int i = 0; i < perfiles; i++) { ficheros[i].numSlices = slices; }
-
-	//Creamos la jerarquia de objetos
-	objects2 = Pag3DGroup(ficheros, perfiles);
 }
 
 void PagRenderer::cargarEscena() {
@@ -137,19 +87,6 @@ void PagRenderer::cargarEscena() {
 
 	//Creamos las Geometrias y Topologias de los diferentes objetos que componen la escena
 	objects.createObject();
-	objects2.createObject();
-
-	glm::mat4 ModelMatrix4(1.0);
-
-	ModelMatrix4 *= glm::translate(glm::mat4(), glm::vec3(-30.0f, 0.0f, 0.0f));
-
-	objects.setOwnModelMatrix(ModelMatrix4);
-
-	glm::mat4 ModelMatrix5(1.0);
-
-	ModelMatrix5 *= glm::translate(glm::mat4(), glm::vec3(30.0f, 0.0f, 0.0f));
-
-	objects2.setOwnModelMatrix(ModelMatrix5);
 
 
 	glm::mat4 ModelMatrix(1.0);
@@ -163,7 +100,6 @@ void PagRenderer::cargarEscena() {
 	ModelMatrix *= glm::translate(glm::mat4(), glm::vec3(0.0f, -2.0f, 0.0f));
 
 	objects.setModelMatrix(ModelMatrix, 5);
-	objects2.setModelMatrix(ModelMatrix, 5);
 
 	glm::mat4 ModelMatrix2(1.0);
 
@@ -176,14 +112,12 @@ void PagRenderer::cargarEscena() {
 	ModelMatrix2 *= glm::translate(glm::mat4(), glm::vec3(0.0f, -2.0f, 0.0f));
 
 	objects.setModelMatrix(ModelMatrix2, 6);
-	objects2.setModelMatrix(ModelMatrix2, 6);
 
 	glm::mat4 ModelMatrix3(1.0);
 
 	ModelMatrix3 *= glm::translate(glm::mat4(), glm::vec3(-2.0f, -0.5f, 2.0f));
 
 	objects.setModelMatrix(ModelMatrix3, 8);
-	objects2.setModelMatrix(ModelMatrix3, 8);
 
 	//Cargamos todas las Texturas del directorio Textures
 

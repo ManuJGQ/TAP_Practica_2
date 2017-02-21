@@ -1,6 +1,8 @@
 #include "PagRenderer.h"
 #include "PagCamera.h"
 
+#include "TapBezier.h"
+
 PagRenderer escena;
 PagCamera camera;
 
@@ -84,10 +86,14 @@ int main(int argc, char** argv) {
 
 	GLFWwindow* window;
 
-	window = glfwCreateWindow(1024, 768, "PAG Practica 4 - TEXTURAS", NULL, NULL);
+	TapBezier bezier = TapBezier({ 0,0,0 }, { 9,9,9 }, { 2,2,2 }, { 4,4,4 });
+	bezier.createObject();
+
+	window = glfwCreateWindow(1024, 768, "TAP Practica 2: Tecnicas de Interpolacion", NULL, NULL);
 	if (window == NULL) {
 		std::cout << "Failed to open GLFW window" << std::endl;
 		glfwTerminate();
+		system("pause");
 		return -2;
 	}
 
