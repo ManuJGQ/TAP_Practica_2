@@ -30,8 +30,4 @@ void TapBezier::createObject() {
 	}
 };
 
-void TapBezier::draw(glm::mat4 ViewMatrix, glm::mat4 ProjectionMatrix, PagRenderer* renderer, std::pair<std::string, PagShaderProgram*> shader, PagLight* light, int ns) {
-
-};
-
 TapBezier::~TapBezier(){}
