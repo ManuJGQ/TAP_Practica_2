@@ -22,6 +22,10 @@ public:
 	TAPLinearInterpolation(const TAPLinearInterpolation &interpolacion);
 
 	Puntos getPosicionInterpolada(double _t);
+	Puntos getPosicionInterpolada(const TAPLinearInterpolation &interpolacion);
+
+	double getUltimoT() { return coordenadasT[coordenadasT.size() - 1]; }
+	double getPrimeraT() { return coordenadasT[0]; }
 
 	~TAPLinearInterpolation();
 };

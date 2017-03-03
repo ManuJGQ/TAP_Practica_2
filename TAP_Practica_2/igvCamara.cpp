@@ -3,6 +3,7 @@
 #include <stdio.h>
 
 #include "igvCamara.h"
+#include <iostream>
 
 // Metodos constructores
 
@@ -113,5 +114,16 @@ void igvCamara::aplicar(void) {
 }
 
 void igvCamara::zoom(double factor) {
-
+	double yx = ywmax;
+	yx -= factor*0.0299;
+	std::cout << "ENTRO1 " << yx << std::endl;
+	//if (yx >= -5 && yx <= 0.1) {
+		std::cout << "ENTRO2" << std::endl;
+		angulo -= factor*0.69;
+		xwmin += factor*0.0299;
+		xwmax -= factor*0.0299;
+		ywmin += factor*0.0299;
+		ywmax -= factor*0.0299;
+		aplicar();
+	//}
 }

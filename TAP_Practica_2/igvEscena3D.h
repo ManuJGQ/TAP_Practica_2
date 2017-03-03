@@ -4,11 +4,13 @@
 #include <glut.h>
 
 #include <iostream>
+#include "TAPLinearInterpolation.h"
 using namespace std;
 
 class igvEscena3D {
+	Puntos movimiento;
 	protected:
-////// Apartado B: añadir quí los atributos para el control de los grados de libertad del modelo
+	// añadir quí los atributos para el control de los grados de libertad del modelo
 
 		GLfloat cuerpo;
 		GLfloat rcabeza;
@@ -86,6 +88,12 @@ class igvEscena3D {
 	void piernad(void);
 	void pied(void);
 
+	void setMovimiento(Puntos _mov) {
+		movimiento.x = _mov.x;
+		movimiento.y = _mov.y;
+		movimiento.z = _mov.z;
+	}
+
 
 ////// Apartado B: añadir aquí los métodos para modificar los grados de libertad del modelo
 
@@ -115,7 +123,7 @@ class igvEscena3D {
 		if(pd+rotacion<=50 && pd+rotacion>=-50)pd+=rotacion;
 	}
 
-////// Apartado D: añadir aquí el método/s para indicar el objeto seleccionado
+	// añadir aquí el método/s para indicar el objeto seleccionado
 
 	void obejetoSelecionado(int _objetoSelecionado){
 		if(_objetoSelecionado==CUERPO)CUERPOS=true;

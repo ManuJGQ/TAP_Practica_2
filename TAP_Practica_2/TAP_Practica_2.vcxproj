@@ -137,7 +137,6 @@
     <ClInclude Include="igvInterfaz.h" />
     <ClInclude Include="igvMaterial.h" />
     <ClInclude Include="igvPunto3D.h" />
-    <ClInclude Include="Personaje.h" />
     <ClInclude Include="TAPLinearInterpolation.h" />
   </ItemGroup>
   <ItemGroup>
@@ -148,8 +147,7 @@
     <ClCompile Include="igvInterfaz.cpp" />
     <ClCompile Include="igvMaterial.cpp" />
     <ClCompile Include="igvPunto3D.cpp" />
-    <ClCompile Include="Personaje.cpp" />
-    <ClCompile Include="proyecto.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="TAPLinearInterpolation.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
