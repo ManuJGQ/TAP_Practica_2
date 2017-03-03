@@ -115,7 +115,7 @@ Puntos TAPLinearInterpolation::getPosicionInterpolada(double _t){
 			return coordenadasV[i];
 		}
 		if (_t > coordenadasT[i] && _t < coordenadasT[i + 1]) {
-			std::cout << "ENTROINTER" << std::endl;
+
 			double alfa = (_t - coordenadasT[i]) / (coordenadasT[i + 1] - coordenadasT[i]);
 
 			Puntos x1 = coordenadasV[i];
@@ -126,7 +126,7 @@ Puntos TAPLinearInterpolation::getPosicionInterpolada(double _t){
 			p.y = ((1 - alfa) * x1.y) + (alfa * x2.y);
 			p.z = ((1 - alfa) * x1.z) + (alfa * x2.z);
 
-			std::cout << p.x << " " << p.y << " " << p.z << std::endl;
+			//std::cout << p.x << " " << p.y << " " << p.z << std::endl;
 
 			return p;
 		}

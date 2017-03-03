@@ -325,6 +325,9 @@ void igvInterfaz::set_glutIdleFunc() {
 			interfaz.pierna--;
 		}
 
+		/***************************************************************
+		*					INTERPOLACION LINEAL					   *
+		***************************************************************/
 		interfaz.pt += 0.01;
 		if (interfaz.pt > interfaz.ut) {
 			interfaz.pt = interfaz.linearInterpolation.getPrimeraT();
@@ -336,13 +339,13 @@ void igvInterfaz::set_glutIdleFunc() {
 		movimiento.y = nuevoPunto.y - interfaz.puntoActual.y;
 		movimiento.z = nuevoPunto.z - interfaz.puntoActual.z;
 
-		std::cout << "--------------------------------------------------------" << std::endl;
-		std::cout << interfaz.puntoActual.x << " " << interfaz.puntoActual.y << " " << interfaz.puntoActual.z << std::endl;
+		/*std::cout << "--------------------------------------------------------" << std::endl;
+		std::cout << interfaz.puntoActual.x << " " << interfaz.puntoActual.y << " " << interfaz.puntoActual.z << std::endl;*/
 
 		interfaz.puntoActual = nuevoPunto;
 
-		std::cout << nuevoPunto.x << " " << nuevoPunto.y << " " << nuevoPunto.z << std::endl;
-		std::cout << movimiento.x << " " << movimiento.y << " " << movimiento.z << std::endl;
+		//std::cout << nuevoPunto.x << " " << nuevoPunto.y << " " << nuevoPunto.z << std::endl;
+		//std::cout << movimiento.x << " " << movimiento.y << " " << movimiento.z << std::endl;
 
 		interfaz.escena.setMovimiento(nuevoPunto);
 
