@@ -1,6 +1,5 @@
 #include "TAPLinearInterpolation.h"
 
-#include <iostream>
 #include <fstream>
 #include <math.h>
 
@@ -20,6 +19,8 @@ TAPLinearInterpolation::TAPLinearInterpolation(){
 
 /**
 * Constructor que crea la interpolacion a partir de un fichero .txt
+* con el siguiente formato en cada linea:
+* t,v Ejemplo: 0.6,1,1,1 tiene t = 0.6 y Punto = 1,1,1
 */
 TAPLinearInterpolation::TAPLinearInterpolation(std::string archivoTXT) {
 	coordenadasV = std::vector<Puntos>();
@@ -63,7 +64,7 @@ TAPLinearInterpolation::TAPLinearInterpolation(std::string archivoTXT) {
 
 			sV = sV.substr(coma + 1, sV.length());
 
-			std::cout << T << " - " << V.x << "," << V.y << "," << V.z << "," << std::endl;
+			//std::cout << T << " - " << V.x << "," << V.y << "," << V.z << "," << std::endl;
 
 			coordenadasT.push_back(T);
 			coordenadasV.push_back(V);

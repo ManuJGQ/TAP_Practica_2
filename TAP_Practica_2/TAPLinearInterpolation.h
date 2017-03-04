@@ -18,7 +18,7 @@ class TAPLinearInterpolation {
 public:
 	TAPLinearInterpolation();
 	TAPLinearInterpolation(std::string archivoTXT);
-	TAPLinearInterpolation(std::vector<Puntos> coordV, std::vector<double> coordX);
+	TAPLinearInterpolation(std::vector<Puntos> coordV, std::vector<double> coordT);
 	TAPLinearInterpolation(const TAPLinearInterpolation &interpolacion);
 
 	Puntos getPosicionInterpolada(double _t);
