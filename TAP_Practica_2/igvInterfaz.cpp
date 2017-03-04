@@ -245,13 +245,13 @@ void igvInterfaz::set_glutMotionFunc(GLint x, GLint y) {
 	// convenientemente el grado de libertad del objeto correspondiente 
 
 	if (interfaz.boton_retenido && interfaz.get_objeto_seleccionado() != -1) {
-		if (interfaz.get_objeto_seleccionado() == 1)interfaz.escena.rotarCuerpo(((interfaz.cursorX - x))*-3);
-		if (interfaz.get_objeto_seleccionado() == 2)interfaz.escena.rotarCabezaY(((interfaz.cursorX - x))*-1);
-		if (interfaz.get_objeto_seleccionado() == 2)interfaz.escena.rotarCabezaX(((interfaz.cursorY - y))*-0.5);
-		if (interfaz.get_objeto_seleccionado() == 9)interfaz.escena.rotarBrazoIzq(((interfaz.cursorX - x))*-1.5);
-		if (interfaz.get_objeto_seleccionado() == 10)interfaz.escena.rotarBrazoDer(((interfaz.cursorX - x))*1.5);
-		if (interfaz.get_objeto_seleccionado() == 13)interfaz.escena.rotarPiernaIzq(((interfaz.cursorX - x))*-1.5);
-		if (interfaz.get_objeto_seleccionado() == 14)interfaz.escena.rotarPiernaDer(((interfaz.cursorX - x))*1.5);
+		if (interfaz.get_objeto_seleccionado() == 1)interfaz.escena.rotarCuerpo(((interfaz.cursorX - x))*-0.05);
+		//if (interfaz.get_objeto_seleccionado() == 2)interfaz.escena.rotarCabezaY(((interfaz.cursorX - x))*-1);
+		//if (interfaz.get_objeto_seleccionado() == 2)interfaz.escena.rotarCabezaX(((interfaz.cursorY - y))*-0.5);
+		//if (interfaz.get_objeto_seleccionado() == 9)interfaz.escena.rotarBrazoIzq(((interfaz.cursorX - x))*-1.5);
+		//if (interfaz.get_objeto_seleccionado() == 10)interfaz.escena.rotarBrazoDer(((interfaz.cursorX - x))*1.5);
+		//if (interfaz.get_objeto_seleccionado() == 13)interfaz.escena.rotarPiernaIzq(((interfaz.cursorX - x))*-1.5);
+		//if (interfaz.get_objeto_seleccionado() == 14)interfaz.escena.rotarPiernaDer(((interfaz.cursorX - x))*1.5);
 
 		// guardar la nueva posición del ratón 
 

@@ -112,7 +112,14 @@ void igvEscena3D::visualizar() {
 }
 
 void igvEscena3D::pintarGrafo() {
-	glRotatef(cuerpo, 0, 1, 0);
+	//glRotatef(cuerpo, 0, 1, 0);
+	double k = cuerpo;
+	double z = 0.5;
+	double x = 1 * cos(k * z) - 1.5 * sin(k * z);
+	double y = 1 * sin(k * z) + 1.5 * cos(k * z);
+	cout << x << " " << y << " " << z << " " << k << endl;
+	if (CUERPOS)glScaled(x, y, z);
+
 	glPushName(CUERPO);
 	tronco();						//CUERPO
 	glPopName();
