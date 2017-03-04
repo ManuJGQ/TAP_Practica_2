@@ -362,12 +362,6 @@ void igvInterfaz::set_glutIdleFunc() {
 		}
 		Quaternion nuevoGiro = interfaz.sphericalInterpolation.getPosicionInterpolada(interfaz.spt);
 
-		/*std::cout << "--------------------------------------------------------" << std::endl;
-		std::cout << interfaz.puntoActual.x << " " << interfaz.puntoActual.y << " " << interfaz.puntoActual.z << std::endl;*/
-
-		//std::cout << nuevoPunto.x << " " << nuevoPunto.y << " " << nuevoPunto.z << std::endl;
-		//std::cout << movimiento.x << " " << movimiento.y << " " << movimiento.z << std::endl;
-
 		interfaz.escena.setGiro(nuevoGiro);
 
 		glutPostRedisplay();

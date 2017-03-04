@@ -8,13 +8,13 @@
 igvEscena3D::igvEscena3D() {
 	ejes = true;
 
-	// Apartado B: inicializar los atributos para el control de los grados de libertad del modelo 
+	//inicializar los atributos para el control de los grados de libertad del modelo 
 
 	cuerpo = 0;
 	rcabeza = 0;
 	rcabeza2 = 0;
 	bi = 0;
-	// Apartado D: inicializar el atributo/s que indica/n el objeto seleccionado para pintarlo de otro color
+	// inicializar el atributo/s que indica/n el objeto seleccionado para pintarlo de otro color
 
 	CUERPO = 1;
 	CABEZA = 2;

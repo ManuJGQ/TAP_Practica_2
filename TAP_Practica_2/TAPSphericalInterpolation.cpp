@@ -127,18 +127,18 @@ Quaternion TAPSphericalInterpolation::getPosicionInterpolada(double _t){
 			Quaternion y = coordenadasV[i + 1];
 
 			//Normalizamos los dos Quaternions
-	/*		double modX = abs(pow(x.s, 2) + pow(x.x, 2) + pow(x.y, 2) + pow(x.z, 2));
-			double modY = abs(pow(y.s, 2) + pow(y.x, 2) + pow(y.y, 2) + pow(y.z, 2));
+			//double modX = abs(pow(x.s, 2) + pow(x.x, 2) + pow(x.y, 2) + pow(x.z, 2));
+			//double modY = abs(pow(y.s, 2) + pow(y.x, 2) + pow(y.y, 2) + pow(y.z, 2));
 
-			x.s = x.s / modX;
-			x.x = x.x / modX;
-			x.y = x.y / modX;
-			x.z = x.z / modX;
+			//x.s = x.s / modX;
+			//x.x = x.x / modX;
+			//x.y = x.y / modX;
+			//x.z = x.z / modX;
 
-			y.s = y.s / modY;
-			y.x = y.x / modY;
-			y.y = y.y / modY;
-			y.z = y.z / modY;*/
+			//y.s = y.s / modY;
+			//y.x = y.x / modY;
+			//y.y = y.y / modY;
+			//y.z = y.z / modY;
 
 			//Obtenemos el angulo Phi
 			double c = x.s * y.s + x.x * y.x + x.y * y.y + x.z * y.z;
