@@ -12,6 +12,8 @@ using namespace std;
 class igvEscena3D {
 	Puntos movimiento;
 	Quaternion giro;
+
+	double twist;
 protected:
 	// añadir quí los atributos para el control de los grados de libertad del modelo
 
@@ -102,6 +104,10 @@ public:
 		giro.x = _giro.x;
 		giro.y = _giro.y;
 		giro.z = _giro.z;
+	}
+
+	void setTwist(double _t) {
+		twist += _t;
 	}
 
 

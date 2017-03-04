@@ -54,6 +54,7 @@ igvEscena3D::igvEscena3D() {
 	movimiento.y = 0;
 	movimiento.z = 0;
 
+	twist = 0;
 }
 
 igvEscena3D::~igvEscena3D() {
@@ -106,7 +107,88 @@ void igvEscena3D::visualizar() {
 	glTranslated(movimiento.x, movimiento.y, movimiento.z);
 	glRotatef(giro.s, giro.x, giro.y, giro.z);
 
-	pintarGrafo();
+	//Vertices cubo
+
+	Puntos x1 = { -1.5f * cos(twist * 1.5f) - 1.5f * sin(twist * 1.5f), -1.5f * sin(twist * 1.5f) + 1.5f * cos(twist * 1.5f), 1.5f };
+	Puntos x2 = { 1.5f * cos(twist * 1.5f) - 1.5f * sin(twist * 1.5f), 1.5f * sin(twist * 1.5f) + 1.5f * cos(twist * 1.5f), 1.5f };
+	Puntos x3 = { 1.5f * cos(twist * -1.5f) - 1.5f * sin(twist * -1.5f), 1.5f * sin(twist * -1.5f) + 1.5f * cos(twist * -1.5f), -1.5f };
+	Puntos x4 = { -1.5f * cos(twist * -1.5f) - 1.5f * sin(twist * -1.5f), -1.5f * sin(twist * -1.5f) + 1.5f * cos(twist * -1.5f), -1.5f };
+
+	Puntos x5 = { 1.5f * cos(twist * 1.5f) + 1.5f * sin(twist * 1.5f), 1.5f * sin(twist * 1.5f) - 1.5f * cos(twist * 1.5f), 1.5f };
+	Puntos x6 = { -1.5f * cos(twist * 1.5f) + 1.5f * sin(twist * 1.5f), -1.5f * sin(twist * 1.5f) - 1.5f * cos(twist * 1.5f), 1.5f };
+	Puntos x7 = { 1.5f * cos(twist *- 1.5f) + 1.5f * sin(twist * -1.5f), 1.5f * sin(twist * -1.5f) - 1.5f * cos(twist * -1.5f), -1.5f };
+	Puntos x8 = { -1.5f * cos(twist * -1.5f) + 1.5f * sin(twist * -1.5f), -1.5f * sin(twist * -1.5f) - 1.5f * cos(twist * -1.5f), -1.5f };
+
+	glBegin(GL_QUADS);
+	// top
+	glColor3f(1.0f, 0.0f, 0.0f);
+	glNormal3f(0.0f, 1.0f, 0.0f);
+	//glScaled(x1.x * cos(twist * x1.z) - x1.y * sin(twist * x1.z), 
+	//		 x1.x * sin(twist * x1.z) + x1.y * cos(twist * x1.z),
+	//		 x1.z);
+	glVertex3f(x1.x, x1.y, x1.z);
+	glVertex3f(x2.x, x2.y, x2.z);
+	glVertex3f(x3.x, x3.y, x3.z);
+	glVertex3f(x4.x, x4.y, x4.z);
+
+	glEnd();
+
+	glBegin(GL_QUADS);
+	// front
+	glColor3f(0.0f, 1.0f, 0.0f);
+	glNormal3f(0.0f, 0.0f, 1.0f);
+	glVertex3f(x5.x, x5.y, x5.z);
+	glVertex3f(x2.x, x2.y, x2.z);
+	glVertex3f(x1.x, x1.y, x1.z);
+	glVertex3f(x6.x, x6.y, x6.z);
+
+	glEnd();
+
+	glBegin(GL_QUADS);
+	// right
+	glColor3f(0.0f, 0.0f, 1.0f);
+	glNormal3f(1.0f, 0.0f, 0.0f);
+	glVertex3f(x3.x, x3.y, x3.z);
+	glVertex3f(x2.x, x2.y, x2.z);
+	glVertex3f(x5.x, x5.y, x5.z);
+	glVertex3f(x7.x, x7.y, x7.z);
+
+	glEnd();
+
+	glBegin(GL_QUADS);
+	// left
+	glColor3f(0.0f, 0.0f, 0.5f);
+	glNormal3f(-1.0f, 0.0f, 0.0f);
+	glVertex3f(x6.x, x6.y, x6.z);
+	glVertex3f(x1.x, x1.y, x1.z);
+	glVertex3f(x4.x, x4.y, x4.z);
+	glVertex3f(x8.x, x8.y, x8.z);
+
+	glEnd();
+
+	glBegin(GL_QUADS);
+	// bottom
+	glColor3f(0.5f, 0.0f, 0.0f);
+	glNormal3f(0.0f, -1.0f, 0.0f);
+	glVertex3f(x5.x, x5.y, x5.z);
+	glVertex3f(x6.x, x6.y, x6.z);
+	glVertex3f(x8.x, x8.y, x8.z);
+	glVertex3f(x7.x, x7.y, x7.z);
+
+	glEnd();
+
+	glBegin(GL_QUADS);
+	// back
+	glColor3f(0.0f, 0.5f, 0.0f);
+	glNormal3f(0.0f, 0.0f, -1.0f);
+	glVertex3f(x3.x, x3.y, x3.z);
+	glVertex3f(x7.x, x7.y, x7.z);
+	glVertex3f(x8.x, x8.y, x8.z);
+	glVertex3f(x4.x, x4.y, x4.z);
+
+	glEnd();
+
+	//pintarGrafo();
 
 	glPopMatrix(); // restaura la matriz de modelado
 }

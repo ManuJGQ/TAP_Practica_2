@@ -152,6 +152,12 @@ void igvInterfaz::set_glutKeyboardFunc(unsigned char key, int x, int y) {
 	case 'R':
 		interfaz.escena.rotarPiernaDer(5);
 		break;
+	case 't':
+		interfaz.escena.setTwist(0.01);
+		break;
+	case 'T':
+		interfaz.escena.rotarPiernaDer(5);
+		break;
 	case 'a': // activa/desactiva la animación de la escena
 	// incluir aquí la activación de la animación
 		interfaz.animacion = (interfaz.animacion ? false : true);
