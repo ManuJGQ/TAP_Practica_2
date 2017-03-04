@@ -104,6 +104,7 @@ void igvEscena3D::visualizar() {
 //	          a las partes móviles del objeto mediante la pila de nombres y el control del objeto seleccionado 
 //						para colorearlo en amarillo
 	glTranslated(movimiento.x, movimiento.y, movimiento.z);
+	glRotatef(giro.s, giro.x, giro.y, giro.z);
 
 	pintarGrafo();
 

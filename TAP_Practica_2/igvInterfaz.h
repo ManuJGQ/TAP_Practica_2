@@ -8,6 +8,7 @@
 #include "igvCamara.h"
 
 #include "TAPLinearInterpolation.h"
+#include "TAPSphericalInterpolation.h"
 
 using namespace std;
 
@@ -22,6 +23,11 @@ class igvInterfaz {
 	double pt;
 	double ut;
 	Puntos puntoActual;
+
+	// Interpolacion Esferica
+	TAPSphericalInterpolation sphericalInterpolation;
+	double spt;
+	double sut;
 protected:
 	// Atributos
 	int ancho_ventana; // ancho inicial de la ventana de visualizacion

@@ -113,8 +113,63 @@ TAPSphericalInterpolation::TAPSphericalInterpolation(const TAPSphericalInterpola
 * Funcion que dado un valor T devuelve el Quaternion en funcion a la interpolacion
 */
 Quaternion TAPSphericalInterpolation::getPosicionInterpolada(double _t){
+	int tamaT = coordenadasT.size() - 1;
 
-	return Quaternion();
+	for (int i = 0; i < tamaT; i++) {
+		if (iguales(coordenadasT[i], _t)) {
+			return coordenadasV[i];
+		}
+		if (_t > coordenadasT[i] && _t < coordenadasT[i + 1]) {
+
+			double alfa = (_t - coordenadasT[i]) / (coordenadasT[i + 1] - coordenadasT[i]);
+
+			Quaternion x = coordenadasV[i];
+			Quaternion y = coordenadasV[i + 1];
+
+			//Normalizamos los dos Quaternions
+	/*		double modX = abs(pow(x.s, 2) + pow(x.x, 2) + pow(x.y, 2) + pow(x.z, 2));
+			double modY = abs(pow(y.s, 2) + pow(y.x, 2) + pow(y.y, 2) + pow(y.z, 2));
+
+			x.s = x.s / modX;
+			x.x = x.x / modX;
+			x.y = x.y / modX;
+			x.z = x.z / modX;
+
+			y.s = y.s / modY;
+			y.x = y.x / modY;
+			y.y = y.y / modY;
+			y.z = y.z / modY;*/
+
+			//Obtenemos el angulo Phi
+			double c = x.s * y.s + x.x * y.x + x.y * y.y + x.z * y.z;
+
+			Quaternion v;
+			v.s = y.s - (c * x.s);
+			v.x = y.x - (c * x.x);
+			v.y = y.y - (c * x.y);
+			v.z = y.z - (c * x.z);
+
+			double s = abs(v.s * v.s + v.x * v.x + v.y * v.y + v.z * v.z);
+
+			double angPhi = atan2(s, c);
+
+			std::cout << angPhi << std::endl;
+
+			double a = (sin((1 - alfa) * angPhi)) / (sin(angPhi));
+
+			double b = (sin(alfa * angPhi)) / (sin(angPhi));
+
+			Quaternion z;
+			z.s = (a * x.s) + (b * y.s);
+			z.x = (a * x.x) + (b * y.x);
+			z.y = (a * x.y) + (b * y.y);
+			z.z = (a * x.z) + (b * y.z);
+
+			std::cout << z.s << " " << z.x << " " << z.y << " " << z.z << std::endl;
+
+			return z;
+		}
+	}
 }
 
 /**
@@ -126,5 +181,7 @@ Quaternion TAPSphericalInterpolation::getPosicionInterpolada(const TAPSphericalI
 	return Quaternion();
 }
 
-
+/**
+* Destructor
+*/
 TAPSphericalInterpolation::~TAPSphericalInterpolation(){}

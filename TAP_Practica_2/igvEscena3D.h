@@ -5,10 +5,13 @@
 
 #include <iostream>
 #include "TAPLinearInterpolation.h"
+#include "TAPSphericalInterpolation.h"
+
 using namespace std;
 
 class igvEscena3D {
 	Puntos movimiento;
+	Quaternion giro;
 	protected:
 	// añadir quí los atributos para el control de los grados de libertad del modelo
 
@@ -94,8 +97,15 @@ class igvEscena3D {
 		movimiento.z = _mov.z;
 	}
 
+	void setGiro(Quaternion _giro) {
+		giro.s = _giro.s;
+		giro.x = _giro.x;
+		giro.y = _giro.y;
+		giro.z = _giro.z;
+	}
 
-////// Apartado B: añadir aquí los métodos para modificar los grados de libertad del modelo
+
+// añadir aquí los métodos para modificar los grados de libertad del modelo
 
 	void rotarCuerpo(GLfloat rotacion){cuerpo+=rotacion;};
 

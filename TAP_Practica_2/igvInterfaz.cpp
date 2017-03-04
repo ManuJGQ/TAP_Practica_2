@@ -49,6 +49,10 @@ igvInterfaz::igvInterfaz() {
 	ut = linearInterpolation.getUltimoT();
 	puntoActual = linearInterpolation.getPosicionInterpolada(pt);
 
+	sphericalInterpolation = TAPSphericalInterpolation("sphericalInterpolation.txt");
+	spt = sphericalInterpolation.getPrimeraT();
+	sut = sphericalInterpolation.getUltimoT();
+
 }
 
 igvInterfaz::~igvInterfaz() {}
@@ -348,6 +352,23 @@ void igvInterfaz::set_glutIdleFunc() {
 		//std::cout << movimiento.x << " " << movimiento.y << " " << movimiento.z << std::endl;
 
 		interfaz.escena.setMovimiento(nuevoPunto);
+
+		/***************************************************************
+		*					INTERPOLACION ESFERICA					   *
+		***************************************************************/
+		interfaz.spt += 0.01;
+		if (interfaz.spt > interfaz.sut) {
+			interfaz.spt = interfaz.sphericalInterpolation.getPrimeraT();
+		}
+		Quaternion nuevoGiro = interfaz.sphericalInterpolation.getPosicionInterpolada(interfaz.spt);
+
+		/*std::cout << "--------------------------------------------------------" << std::endl;
+		std::cout << interfaz.puntoActual.x << " " << interfaz.puntoActual.y << " " << interfaz.puntoActual.z << std::endl;*/
+
+		//std::cout << nuevoPunto.x << " " << nuevoPunto.y << " " << nuevoPunto.z << std::endl;
+		//std::cout << movimiento.x << " " << movimiento.y << " " << movimiento.z << std::endl;
+
+		interfaz.escena.setGiro(nuevoGiro);
 
 		glutPostRedisplay();
 
