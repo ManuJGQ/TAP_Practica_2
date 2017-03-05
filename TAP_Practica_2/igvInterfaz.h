@@ -28,6 +28,8 @@ class igvInterfaz {
 	TAPSphericalInterpolation sphericalInterpolation;
 	double spt;
 	double sut;
+
+	int travelling;
 protected:
 	// Atributos
 	int ancho_ventana; // ancho inicial de la ventana de visualizacion
@@ -47,11 +49,6 @@ protected:
 	modoInterfaz modo; // IGV_VISUALIZAR: en la ventana se va a visualizar de manera normal la escena, 
 					   // IGV_SELECCIONAR: se ha pulsado sobre la ventana de visualización, la escena se debe
 					   // visualizar en modo selección para el cálculo de la lista de impactos
-	int cursorX, cursorY; // pixel de la pantalla sobre el que está situado el ratón, por pulsar o arrastrar
-
-	int objeto_seleccionado; // código del objeto seleccionado, -1 si no hay ninguno
-
-	bool boton_retenido; // indica si el botón está pulsado (true) o se ha soltado (false)
 
 public:
 	// Constructores por defecto y destructor
@@ -64,17 +61,6 @@ public:
 
 	bool animacion;
 
-	int pierna;
-	int brazo;
-	int cabezaS;
-	int cabezaN;
-
-	bool bpierna;
-	bool bbrazo;
-	bool bcabezaS;
-	bool bcabezaN;
-
-
 	// Metodos estáticos
 	// callbacks de eventos
 	static void set_glutKeyboardFunc(unsigned char key, int x, int y); // metodo para control de eventos del teclado
@@ -83,16 +69,9 @@ public:
 	static void set_glutDisplayFunc(); // método para visualizar la escena
 	static void set_glutIdleFunc(); // método para animar la escena
 
-	// métodos para el control de la pulsación y el arrastre del ratón
-	static void  set_glutMouseFunc(GLint boton, GLint estado, GLint x, GLint y); // control de pulsacion del raton
-	static void  set_glutMotionFunc(GLint x, GLint y); // control del desplazamiento del raton con boton pulsado
+	static void SpecialInput(int key, int x, int y);
 
-
-		// Metodos
-
-	// métodos a implementar para realizar la seleccion mediante lista de impactos
-	void inicia_seleccion(int TAMANO_LISTA_IMPACTOS, GLuint *lista_impactos);
-	void finaliza_seleccion(int TAMANO_LISTA_IMPACTOS, GLuint *lista_impactos);
+	// Metodos
 
 	// crea el mundo que se visualiza en la ventana
 	void crear_mundo(void);
@@ -124,10 +103,6 @@ public:
 	void set_vista(bool _vista) { vista = _vista; };
 	bool get_perspectiva() { return perspectiva; };
 	void set_perspectiva(bool _perspectiva) { perspectiva = _perspectiva; };
-
-	int get_objeto_seleccionado() { return objeto_seleccionado; };
-	void set_objeto_seleccionado(int _objetoseleccionado) { objeto_seleccionado = _objetoseleccionado; };
-
 
 };
 

@@ -87,6 +87,7 @@ class igvCamara {
 		                                                     cursorX = _cursorX;
 		                                                     cursorY = _cursorY;};
 		void establecerVisualizacion() {modo = IGV_VISUALIZACION;};
+
 };
 
 #endif

@@ -70,7 +70,7 @@ TAPSphericalInterpolation::TAPSphericalInterpolation(std::string archivoTXT){
 
 			sV = sV.substr(coma + 1, sV.length());
 
-			std::cout << T << " - " << V.s << "," << V.x << "," << V.y << "," << V.z << "," << std::endl;
+			//std::cout << T << " - " << V.s << "," << V.x << "," << V.y << "," << V.z << "," << std::endl;
 
 			coordenadasT.push_back(T);
 			coordenadasV.push_back(V);
