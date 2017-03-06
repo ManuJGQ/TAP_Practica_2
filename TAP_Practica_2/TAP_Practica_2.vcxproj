@@ -137,6 +137,7 @@
     <ClInclude Include="igvInterfaz.h" />
     <ClInclude Include="igvMaterial.h" />
     <ClInclude Include="igvPunto3D.h" />
+    <ClInclude Include="TAPBezier.h" />
     <ClInclude Include="TAPLinearInterpolation.h" />
     <ClInclude Include="TAPSphericalInterpolation.h" />
   </ItemGroup>
@@ -149,6 +150,7 @@
     <ClCompile Include="igvMaterial.cpp" />
     <ClCompile Include="igvPunto3D.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="TAPBezier.cpp" />
     <ClCompile Include="TAPLinearInterpolation.cpp" />
     <ClCompile Include="TAPSphericalInterpolation.cpp" />
   </ItemGroup>
