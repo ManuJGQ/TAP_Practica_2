@@ -1,17 +1,19 @@
 #include "TAPBezier.h"
 
+#include <glui.h>
+
 #include <math.h>
 
 /**
 * Constructor por defecto de una curva de Bezier
 */
-TAPBezier::TAPBezier(){}
+TAPBezier::TAPBezier() {}
 
 /**
 * Constructor al cual le pasas los 4 puntos que sirven para construir
 * una curva de Bezier
 */
-TAPBezier::TAPBezier(Punto _a, Punto _c0, Punto _c1, Punto _b){
+TAPBezier::TAPBezier(Punto _a, Punto _c0, Punto _c1, Punto _b) {
 	A = _a;
 	C0 = _c0;
 	C1 = _c1;
@@ -26,14 +28,14 @@ TAPBezier::TAPBezier(Punto _a, Punto _c0, Punto _c1, Punto _b){
 * Linea 3: Punto C1
 * Linea 4: Punto B
 */
-TAPBezier::TAPBezier(std::string ficheroTXT){
-	//to do
+TAPBezier::TAPBezier(std::string ficheroTXT) {
+	//to do: cargar por fichero
 }
 
 /**
 * Constructor de copia
 */
-TAPBezier::TAPBezier(const TAPBezier & bezier){
+TAPBezier::TAPBezier(const TAPBezier & bezier) {
 	A = bezier.A;
 	C0 = bezier.C0;
 	C1 = bezier.C1;
@@ -43,7 +45,7 @@ TAPBezier::TAPBezier(const TAPBezier & bezier){
 /**
 * Funcion que devuelve el punto P de la curva en el instante t
 */
-Punto TAPBezier::getPunto(float u){
+Punto TAPBezier::getPunto(float u) {
 	Punto p;
 
 	float b0 = pow((1 - u), 3);
@@ -62,7 +64,7 @@ Punto TAPBezier::getPunto(float u){
 * Funcion que calcula la distancia en linea recta entre los puntos
 * correspondientes a los valores u1 y u2 de la curva de Bezier
 */
-float TAPBezier::distancia(float u1, float u2){
+float TAPBezier::distancia(float u1, float u2) {
 	Punto a = getPunto(u1);
 	Punto b = getPunto(u2);
 
@@ -70,6 +72,44 @@ float TAPBezier::distancia(float u1, float u2){
 }
 
 /**
+* Funcion encargada de pintar la Curva de Bezier en cuestion
+*/
+void TAPBezier::pintarCurva() {
+	glPushMatrix();
+		glColor3f(1.0f, 0.0f, 0.0f);
+		glPointSize(5.0f);
+
+		glBegin(GL_POINTS);
+
+			for (float i = 0.0f; i <= 1.0f; i += 0.00001) {
+				Punto p = getPunto(i);
+
+				glColor3f(1, 1, 0);
+				glVertex3f(p.x, p.y, p.z);
+			}
+		glEnd();
+	glPopMatrix();
+
+	glPushMatrix();
+		glPointSize(10.0f);
+
+		glBegin(GL_POINTS);
+			glColor3f(1, 1, 0);
+			glVertex3f(A.x, A.y, A.z);
+
+			glColor3f(1, 1, 0);
+			glVertex3f(C0.x, C0.y, C0.z);
+
+			glColor3f(1, 1, 0);
+			glVertex3f(C1.x, C1.y, C1.z);
+
+			glColor3f(1, 1, 0);
+			glVertex3f(B.x, B.y, B.z);
+		glEnd();
+	glPopMatrix();
+}
+
+/**
 * Destructor
 */
-TAPBezier::~TAPBezier(){}
+TAPBezier::~TAPBezier() {}

@@ -26,6 +26,8 @@ public:
 
 	float distancia(float u1, float u2);
 
+	void pintarCurva();
+
 	void setA(Punto _a) { A = _a; }
 	void setC0(Punto _c0) { C0 = _c0; }
 	void setC1(Punto _c1) { C1 = _c1; }

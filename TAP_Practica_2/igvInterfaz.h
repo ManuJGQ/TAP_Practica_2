@@ -9,6 +9,7 @@
 
 #include "TAPLinearInterpolation.h"
 #include "TAPSphericalInterpolation.h"
+#include "TAPMotionController.h"
 
 using namespace std;
 
@@ -28,6 +29,9 @@ class igvInterfaz {
 	TAPSphericalInterpolation sphericalInterpolation;
 	double spt;
 	double sut;
+
+	//Bezier
+	TAPBezier bezier;
 
 	int travelling;
 protected:

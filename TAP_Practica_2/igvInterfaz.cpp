@@ -42,6 +42,8 @@ igvInterfaz::igvInterfaz() {
 	sut = sphericalInterpolation.getUltimoT();
 
 	travelling = 0;
+
+	bezier = TAPBezier({ 0.0f, 2.0f, 0.0f }, { 3.0f, -2.0f, 0.0f }, { 5.0f, 20.0f, 0.0f }, { 3.0f, 4.0f, 0.0f });
 }
 
 igvInterfaz::~igvInterfaz() {}
@@ -172,6 +174,8 @@ void igvInterfaz::set_glutDisplayFunc() {
 
 	// aplica las transformaciones en función de los parámetros de la cámara y del modo (visualización o selección)
 	interfaz.camara.aplicar();
+
+	interfaz.bezier.pintarCurva();
 
 	// visualiza la escena
 	interfaz.escena.visualizar();
