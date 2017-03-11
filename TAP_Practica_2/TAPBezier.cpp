@@ -43,19 +43,30 @@ TAPBezier::TAPBezier(const TAPBezier & bezier){
 /**
 * Funcion que devuelve el punto P de la curva en el instante t
 */
-Punto TAPBezier::getPunto(double u){
+Punto TAPBezier::getPunto(float u){
 	Punto p;
 
-	double b0 = pow((1 - u), 3);
-	double b1 = 3 * u * pow((1 - u), 2);
-	double b2 = 3 * pow(u, 2) * (1 - u);
-	double b3 = pow(u, 3);
+	float b0 = pow((1 - u), 3);
+	float b1 = 3 * u * pow((1 - u), 2);
+	float b2 = 3 * pow(u, 2) * (1 - u);
+	float b3 = pow(u, 3);
 
 	p.x = b0 * A.x + b1 * C0.x + b2 * C1.x + b3 * B.x;
 	p.y = b0 * A.y + b1 * C0.y + b2 * C1.y + b3 * B.y;
 	p.z = b0 * A.z + b1 * C0.z + b2 * C1.z + b3 * B.z;
 
 	return p;
+}
+
+/**
+* Funcion que calcula la distancia en linea recta entre los puntos
+* correspondientes a los valores u1 y u2 de la curva de Bezier
+*/
+float TAPBezier::distancia(float u1, float u2){
+	Punto a = getPunto(u1);
+	Punto b = getPunto(u2);
+
+	return sqrt(powf(a.x - b.x, 2) + powf(a.y - b.y, 2) + powf(a.z - b.z, 2));
 }
 
 /**

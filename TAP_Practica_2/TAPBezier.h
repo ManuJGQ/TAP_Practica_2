@@ -4,9 +4,9 @@
 #include <string>
 
 struct Punto {
-	double x;
-	double y;
-	double z;
+	float x;
+	float y;
+	float z;
 };
 
 class TAPBezier{
@@ -22,7 +22,9 @@ public:
 	TAPBezier(std::string ficheroTXT);
 	TAPBezier(const TAPBezier &bezier);
 
-	Punto getPunto(double _u);
+	Punto getPunto(float _u);
+
+	float distancia(float u1, float u2);
 
 	void setA(Punto _a) { A = _a; }
 	void setC0(Punto _c0) { C0 = _c0; }
