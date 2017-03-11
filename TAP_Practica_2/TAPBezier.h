@@ -22,7 +22,7 @@ public:
 	TAPBezier(std::string ficheroTXT);
 	TAPBezier(const TAPBezier &bezier);
 
-	Punto getPunto(double _t);
+	Punto getPunto(double _u);
 
 	void setA(Punto _a) { A = _a; }
 	void setC0(Punto _c0) { C0 = _c0; }

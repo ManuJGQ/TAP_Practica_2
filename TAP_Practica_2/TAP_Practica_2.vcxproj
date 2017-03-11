@@ -140,6 +140,7 @@
     <ClInclude Include="igvPunto3D.h" />
     <ClInclude Include="TAPBezier.h" />
     <ClInclude Include="TAPLinearInterpolation.h" />
+    <ClInclude Include="TAPSpeedController.h" />
     <ClInclude Include="TAPSphericalInterpolation.h" />
   </ItemGroup>
   <ItemGroup>
@@ -153,6 +154,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="TAPBezier.cpp" />
     <ClCompile Include="TAPLinearInterpolation.cpp" />
+    <ClCompile Include="TAPSpeedController.cpp" />
     <ClCompile Include="TAPSphericalInterpolation.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

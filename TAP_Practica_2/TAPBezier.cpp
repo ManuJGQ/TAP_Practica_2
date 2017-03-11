@@ -43,13 +43,13 @@ TAPBezier::TAPBezier(const TAPBezier & bezier){
 /**
 * Funcion que devuelve el punto P de la curva en el instante t
 */
-Punto TAPBezier::getPunto(double t){
+Punto TAPBezier::getPunto(double u){
 	Punto p;
 
-	double b0 = pow((1 - t), 3);
-	double b1 = 3 * t * pow((1 - t), 2);
-	double b2 = 3 * pow(t, 2) * (1 - t);
-	double b3 = pow(t, 3);
+	double b0 = pow((1 - u), 3);
+	double b1 = 3 * u * pow((1 - u), 2);
+	double b2 = 3 * pow(u, 2) * (1 - u);
+	double b3 = pow(u, 3);
 
 	p.x = b0 * A.x + b1 * C0.x + b2 * C1.x + b3 * B.x;
 	p.y = b0 * A.y + b1 * C0.y + b2 * C1.y + b3 * B.y;
