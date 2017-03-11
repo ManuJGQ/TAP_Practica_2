@@ -1,6 +1,6 @@
 #pragma once
 
-#include <map>
+#include <vector>
 
 #include "TAPBezier.h"
 #include "TAPSpeedController.h"
@@ -12,7 +12,7 @@ class TAPMotionController{
 	TAPBezier desplazamiento;
 	TAPSpeedController velocidad;
 
-	std::map<float,int> tablaIncrementos;
+	std::vector< std::pair<float,int> > tablaIncrementos;
 
 public:
 	TAPMotionController();
@@ -20,6 +20,7 @@ public:
 	TAPMotionController(const TAPMotionController &motioncontroller);
 
 	void construirTablaIncrementos();
+	int get_Indice(float s);
 
 	Punto get_Punto(float t);
 

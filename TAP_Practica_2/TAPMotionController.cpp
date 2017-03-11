@@ -1,11 +1,5 @@
 #include "TAPMotionController.h"
 
-#define Epsilon 0.000001
-
-static bool iguales(float a, float b) {
-	return (abs(a - b) <= Epsilon);
-}
-
 /**
 * Constructor parametrizado
 */
@@ -47,24 +41,52 @@ void TAPMotionController::construirTablaIncrementos(){
 	
 	float incremento = 1.0f / (float)nEntradasTabla;
 
-	float despl_Acumulado = 0.0f;
+	float dist_Acumulada = 0.0f;
 	float uAcumulada = 0.0f;
 	int i = 0;
 
-	tablaIncrementos.insert(std::pair<float, int>(despl_Acumulado, i));
+	tablaIncrementos.push_back(std::pair<float, int>(dist_Acumulada, i));
+	i++;
 
-	while (uAcumulada < 1.0f || iguales(uAcumulada, 1.0f)) {
+	while (uAcumulada < 1.0f) {
+		float u = incremento * (float)i;
 
+		float dist = desplazamiento.distancia(uAcumulada, u) + dist_Acumulada;
+
+		tablaIncrementos.push_back(std::pair<float, int>(dist, i));
+		i++;
+
+		dist_Acumulada = dist;
+		uAcumulada = u;
 	}
+}
+
+/**
+* Funcion que devuelve el indice correspondiente al valor mas
+* aproximado a una distancia s dada
+*/
+int TAPMotionController::get_Indice(float s){
+	int i = 0;
+
+	while (tablaIncrementos[i].first < s && i <= nEntradasTabla) {
+		i++;
+	}
+
+	return i;
 }
 
 /**
 * Funcion que devuelve el Punto p en el que el objete se encuentre
 * en el instante t
 */
-Punto TAPMotionController::get_Punto(float t)
-{
-	return Punto();
+Punto TAPMotionController::get_Punto(float t){
+	float incremento = 1.0f / (float)nEntradasTabla;
+
+	float s = velocidad.ease(t);
+	int ind = get_Indice(s);
+	float u = (ind - 1) * incremento + (3 / 8) * ((ind * incremento) - ((ind - 1) * incremento));
+
+	return desplazamiento.getPunto(u);
 }
 
 /**
