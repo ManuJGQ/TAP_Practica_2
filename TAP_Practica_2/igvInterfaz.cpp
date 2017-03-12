@@ -34,13 +34,9 @@ igvInterfaz::igvInterfaz() {
 
 	pt = 0.0f;
 
-	travelling = 0;
-
 	bezier = TAPBezier({ 0.0f, 0.0f, 0.0f }, { 20.0f, 2.0f, 0.0f }, { 0.0f, 10.0f, 0.0f }, { 20.0f, 0.0f, 0.0f });
 
-	k1 = 0.2f;
-	k2 = 0.8f;
-	velocidad = TAPSpeedController(k1, k2);
+	velocidad = TAPSpeedController(0.2f, 0.5f);
 
 	movController = TAPMotionController(300, bezier, velocidad);
 
@@ -103,15 +99,33 @@ void igvInterfaz::set_glutKeyboardFunc(unsigned char key, int x, int y) {
 		interfaz.camara.set(interfaz.get_vistas(interfaz.i), igvPunto3D(0, 0, 0), interfaz.get_va());
 		interfaz.camara.aplicar();
 		break;
-	case 't':
-		interfaz.escena.setTwist(0.01);
+	case '1':
+		interfaz.opcion = '1';
+		std::cout << "K1" << std::endl;
 		break;
-	case 'T':
-		interfaz.escena.setTwist(-0.01);
+	case '2':
+		interfaz.opcion = '2';
+		std::cout << "K2" << std::endl;
 		break;
-	case 'R':
-	case 'r':
-		interfaz.escena.setTapering(interfaz.escena.getTapering() ? false : true);
+	case '+':
+		if (interfaz.opcion == '1' && !interfaz.animacion) {
+			interfaz.movController.set_K1(0.05);
+			interfaz.velocidad.set_K1(0.05);
+		}
+		if (interfaz.opcion == '2' && !interfaz.animacion) {
+			interfaz.movController.set_K2(0.05);
+			interfaz.velocidad.set_K2(0.05);
+		}
+		break;
+	case '-':
+		if (interfaz.opcion == '1' && !interfaz.animacion) {
+			interfaz.movController.set_K1(-0.05);
+			interfaz.velocidad.set_K1(-0.05);
+		}
+		if (interfaz.opcion == '2' && !interfaz.animacion) {
+			interfaz.movController.set_K2(-0.05);
+			interfaz.velocidad.set_K2(-0.05);
+		}
 		break;
 	case 'A':
 	case 'a': // activa/desactiva la animación de la escena
@@ -125,34 +139,8 @@ void igvInterfaz::set_glutKeyboardFunc(unsigned char key, int x, int y) {
 	case 'e': // activa/desactiva la visualizacion de los ejes
 		interfaz.escena.set_ejes(interfaz.escena.get_ejes() ? false : true);
 		break;
-	/*case '+':
-		interfaz.velocidad.set_K1(interfaz.k1 + 0.1f);
-		break;
-	case '-':
-		interfaz.velocidad.set_K1(interfaz.k1 - 0.1f);
-		break;*/
 	case 27: // tecla de escape para SALIR
 		exit(1);
-		break;
-	}
-	glutPostRedisplay(); // renueva el contenido de la ventana de vision
-}
-
-void igvInterfaz::SpecialInput(int key, int x, int y) {
-	switch (key){
-	case GLUT_KEY_LEFT:
-		interfaz.i = 0;
-		interfaz.travelling--;
-		interfaz.vistas[0].set(0.0 + interfaz.travelling, 4.0, 15.0);
-		interfaz.camara.set(interfaz.get_vistas(interfaz.i), igvPunto3D(interfaz.travelling, 0, 0), interfaz.get_va());
-		interfaz.camara.aplicar();
-		break;
-	case GLUT_KEY_RIGHT:
-		interfaz.i = 0;
-		interfaz.travelling++;
-		interfaz.vistas[0].set(0.0 + interfaz.travelling, 4.0, 15.0);
-		interfaz.camara.set(interfaz.get_vistas(interfaz.i), igvPunto3D(interfaz.travelling, 0, 0), interfaz.get_va());
-		interfaz.camara.aplicar();
 		break;
 	}
 	glutPostRedisplay(); // renueva el contenido de la ventana de vision
@@ -180,7 +168,7 @@ void igvInterfaz::set_glutDisplayFunc() {
 	// aplica las transformaciones en función de los parámetros de la cámara y del modo (visualización o selección)
 	interfaz.camara.aplicar();
 
-	if(interfaz.pintarBezier)interfaz.bezier.pintarCurva();
+	if (interfaz.pintarBezier)interfaz.bezier.pintarCurva();
 	else interfaz.velocidad.pintarCurva();
 
 	// visualiza la escena
@@ -193,14 +181,14 @@ void igvInterfaz::set_glutDisplayFunc() {
 }
 
 void igvInterfaz::set_glutMouseFunc(GLint boton, GLint estado, GLint x, GLint y) {
-		if (boton == 3) {
-			interfaz.camara.zoom(5);
-		}
-		if (boton == 4) {
-			interfaz.camara.zoom(-5);
-		}
+	if (boton == 3) {
+		interfaz.camara.zoom(10);
+	}
+	if (boton == 4) {
+		interfaz.camara.zoom(-10);
+	}
 
-		glutPostRedisplay();
+	glutPostRedisplay();
 }
 
 void igvInterfaz::set_glutIdleFunc() {
@@ -209,14 +197,16 @@ void igvInterfaz::set_glutIdleFunc() {
 		/***************************************************************
 		*					INTERPOLACION MOVIMIENTO			       *
 		***************************************************************/
-		interfaz.pt += 0.005f;
-		if (interfaz.pt > 1.0f  + interfaz.k1 * interfaz.k2) {
-			interfaz.pt = 0.0f;
-		}
+		
 		Punto nuevoPunto = interfaz.movController.get_Punto(interfaz.pt);
 
-		std::cout << interfaz.pt << std::endl;
-		std::cout << nuevoPunto.x << " " << nuevoPunto.y << " " << nuevoPunto.z << std::endl;
+		interfaz.pt += 0.0025f;
+		if (interfaz.pt >= 1.0f) {
+			interfaz.pt = 0.0f;
+		}
+
+		/*std::cout << interfaz.pt << std::endl;
+		std::cout << nuevoPunto.x << " " << nuevoPunto.y << " " << nuevoPunto.z << std::endl;*/
 
 		Punto movimiento;
 		movimiento.x = nuevoPunto.x - interfaz.puntoActual.x;
@@ -237,11 +227,19 @@ void igvInterfaz::set_glutIdleFunc() {
 	}
 }
 
+void igvInterfaz::escribir(char *st, int x, int y) {
+	glColor3f(0.0, 0.0, 0.0);
+	glRasterPos2f(x, y);
+	for (int i = 0; i < strlen(st); i++) {
+		glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, st[i]);
+	}
+
+}
+
 void igvInterfaz::inicializa_callbacks() {
 	glutKeyboardFunc(set_glutKeyboardFunc);
 	glutReshapeFunc(set_glutReshapeFunc);
 	glutDisplayFunc(set_glutDisplayFunc);
 	glutIdleFunc(set_glutIdleFunc);
-	glutSpecialFunc(SpecialInput);
 	glutMouseFunc(set_glutMouseFunc);
 }

@@ -30,13 +30,17 @@ public:
 	void pintarCurva();
 
 	void set_K1(float _k1) {
-		k1 = _k1;
-		actualizarF();
+		if (k1 + _k1 >= 0.0f && k1 + _k1 <= k2) {
+			k1 += _k1;
+			actualizarF();
+		}
 	}
 
 	void set_K2(float _k2) {
-		k2 = _k2;
-		actualizarF();
+		if (k2 + _k2 >= k1 && k2 + _k2 <= 1.0f) {
+			k2 += _k2;
+			actualizarF();
+		}
 	}
 
 	~TAPSpeedController();

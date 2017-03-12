@@ -41,13 +41,13 @@ float TAPSpeedController::ease(float t){
 	float s = 0.0f;
 	
 	if (t < k1) {
-		s = k1 * (2 / PI) * (sin((t / k1) * (2 / PI) - (2 / PI)) + 1);
+		s = k1 * (2.0f / PI) * (sin((t / k1) * (2.0f / PI) - (2.0f / PI)) + 1.0f);
 	}
 	else if (t < k2) {
-		s = (2 * k1 / PI) + t - k1;
+		s = (2.0f * k1 / PI) + t - k1;
 	}
 	else {
-		s = (2 * k1 / PI) + k2 - k1 + ((1.0f - k2) * (2 / PI)) * sin(((t - k2) / (1.0f - k2)) * (2 / PI));
+		s = (2.0f * k1 / PI) + k2 - k1 + ((1.0f - k2) * (2.0f / PI)) * sin(((t - k2) / (1.0f - k2)) * (2.0f / PI));
 	}
 	
 	return s / f;
@@ -57,7 +57,7 @@ float TAPSpeedController::ease(float t){
 * Recalcula la variable f usada para calcular la distancia s
 */
 void TAPSpeedController::actualizarF(){
-	f = k1 * (2 / PI) + k2 - k1 + (1.0f - k2) * (2 / PI);
+	f = k1 * (2.0f / PI) + k2 - k1 + (1.0f - k2) * (2.0f / PI);
 }
 
 
@@ -65,7 +65,7 @@ void TAPSpeedController::pintarCurva(){
 	for (float i = 0.0f; i <= 1.0f; i += 0.001) {
 		float p = ease(i);
 		glPushMatrix();
-			glTranslatef(i * 10 - (k1 / 2), p * 10 - (k1 / 2), 0.0f);
+			glTranslatef(i * 10, (p - ease(0.0f)) * 10, 0.0f);
 
 			glPushMatrix();
 				GLfloat color[] = { 1.0,0.0,0.0 };
@@ -79,7 +79,7 @@ void TAPSpeedController::pintarCurva(){
 	float p = ease(k1);
 
 	glPushMatrix();
-		glTranslatef(k1 * 10 - (k1 / 2), p * 10 - (k1 / 2), 0.0f);
+		glTranslatef(k1 * 10, (p - ease(0.0f)) * 10, 0.0f);
 
 		glPushMatrix();
 			GLfloat color[] = { 0.0,0.0,0.0 };
@@ -92,7 +92,7 @@ void TAPSpeedController::pintarCurva(){
 	p = ease(k2);
 
 	glPushMatrix();
-		glTranslatef(k2 * 10 - (k1 / 2), p * 10 - (k1 / 2), 0.0f);
+		glTranslatef(k2 * 10, (p - ease(0.0f)) * 10, 0.0f);
 
 		glPushMatrix();
 			GLfloat color4[] = { 0.0,0.0,0.0 };

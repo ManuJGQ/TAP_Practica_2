@@ -48,10 +48,12 @@ TAPBezier::TAPBezier(const TAPBezier & bezier) {
 Punto TAPBezier::getPunto(float u) {
 	Punto p;
 
-	float b0 = pow((1 - u), 3);
-	float b1 = 3 * u * pow((1 - u), 2);
-	float b2 = 3 * pow(u, 2) * (1 - u);
-	float b3 = pow(u, 3);
+	//std::cout << u << std::endl;
+
+	float b0 = powf((1.0f - u), 3);
+	float b1 = 3 * u * powf((1.0f - u), 2);
+	float b2 = 3 * powf(u, 2) * (1.0f - u);
+	float b3 = powf(u, 3);
 
 	p.x = b0 * A.x + b1 * C0.x + b2 * C1.x + b3 * B.x;
 	p.y = b0 * A.y + b1 * C0.y + b2 * C1.y + b3 * B.y;

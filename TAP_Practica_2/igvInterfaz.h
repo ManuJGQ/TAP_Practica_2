@@ -19,31 +19,22 @@ typedef enum {
 } modoInterfaz;
 
 class igvInterfaz {
-	// Interpolacion Lineal
-	TAPLinearInterpolation linearInterpolation;
-	double pt;
-	double ut;
+	float pt;
 	Punto puntoActual;
-
-	// Interpolacion Esferica
-	TAPSphericalInterpolation sphericalInterpolation;
-	double spt;
-	double sut;
 
 	//Bezier
 	TAPBezier bezier;
 
 	//Speed
 	TAPSpeedController velocidad;
-	float k1;
-	float k2;
 
 	//Controlador Movimiento
 	TAPMotionController movController;
 
+	char opcion;
+
 	bool pintarBezier;
 
-	int travelling;
 protected:
 	// Atributos
 	int ancho_ventana; // ancho inicial de la ventana de visualizacion
@@ -83,8 +74,6 @@ public:
 	static void set_glutDisplayFunc(); // método para visualizar la escena
 	static void set_glutIdleFunc(); // método para animar la escena
 
-	static void SpecialInput(int key, int x, int y);
-
 	static void set_glutMouseFunc(GLint boton, GLint estado, GLint x, GLint y); //RATON
 
 	// Metodos
@@ -101,6 +90,8 @@ public:
 	void inicializa_callbacks(); // inicializa todas los callbacks
 
 	void inicia_bucle_visualizacion(); // visualiza la escena y espera a eventos sobre la interfaz
+
+	void escribir(char *st, int x, int y);
 
 	// métodos get_ y set_ de acceso a los atributos
 	int get_ancho_ventana() { return ancho_ventana; };

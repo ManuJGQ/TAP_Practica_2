@@ -40,7 +40,7 @@ void TAPMotionController::construirTablaIncrementos(){
 	std::cout << "ENTRO" << std::endl;
 	tablaIncrementos.clear();
 	
-	float incremento = 1.0f / (float)nEntradasTabla;
+	float incremento = 1.0f / (float)(nEntradasTabla - 1);
 
 	float dist_Acumulada = 0.0f;
 	float uAcumulada = 0.0f;
@@ -49,7 +49,7 @@ void TAPMotionController::construirTablaIncrementos(){
 	tablaIncrementos.push_back(std::pair<float, int>(dist_Acumulada, i));
 	i++;
 
-	while (uAcumulada < 1.0f) {
+	while (uAcumulada <= 1.0f) {
 		float u = incremento * (float)i;
 
 		float dist = desplazamiento.distancia(uAcumulada, u) + dist_Acumulada;
@@ -87,17 +87,19 @@ int TAPMotionController::get_Indice(float s){
 Punto TAPMotionController::get_Punto(float t){
 	float incremento = 1.0f / (float)nEntradasTabla;
 
-	float s = velocidad.ease(t) * tablaIncrementos[nEntradasTabla].first;
+	float s = velocidad.ease(t) * tablaIncrementos[nEntradasTabla].first / velocidad.ease(1.0f);
 
-	std::cout << t << std::endl;
-	/*std::cout << s << " ---- " << tablaIncrementos[nEntradasTabla].first << std::endl;*/
+	
+	//std::cout << t << " -- " << velocidad.ease(t) << " -- " << tablaIncrementos[nEntradasTabla].first << std::endl;
 
 	int ind = get_Indice(s);
-	float u = (ind - 1) * incremento + (3 / 8) * ((ind * incremento) - ((ind - 1) * incremento));
+	//float u = (float)(ind - 1) * incremento + (3 / 8) * (((float)ind * incremento) - ((float)(ind - 1) * incremento));
 
-	std::cout << s << " - " << ind << " - " << u << std::endl;
+	//std::cout << s << " - " << ind << " - " << u << std::endl;
 
-	return desplazamiento.getPunto(u);
+	std::cout << (float)ind * incremento << std::endl;
+
+	return desplazamiento.getPunto((float)ind * incremento);
 }
 
 /**
