@@ -4,8 +4,7 @@
 #include <glut.h>
 
 #include <iostream>
-#include "TAPLinearInterpolation.h"
-#include "TAPSphericalInterpolation.h"
+#include "TAPMotionController.h"
 
 #define Epsilon 0.000001
 
@@ -16,10 +15,9 @@ static bool iguales(double a, double b) {
 using namespace std;
 
 class igvEscena3D {
-	Puntos movimiento;
-	Quaternion giro;
+	Punto movimiento;
 
-	double twist;
+	float twist;
 protected:	
 	bool ejes;
 	bool tapering;
@@ -34,21 +32,14 @@ public:
 	// método con las llamadas OpenGL para visualizar la escena
 	void visualizar(void);
 
-	void setMovimiento(Puntos _mov) {
+	void setMovimiento(Punto _mov) {
 		movimiento.x = _mov.x;
 		movimiento.y = _mov.y;
 		movimiento.z = _mov.z;
 	}
 
-	void setGiro(Quaternion _giro) {
-		giro.s = _giro.s;
-		giro.x = _giro.x;
-		giro.y = _giro.y;
-		giro.z = _giro.z;
-	}
-
-	void setTwist(double _t) {
-		double tw = twist + _t;
+	void setTwist(float _t) {
+		float tw = twist + _t;
 		if ((tw > -0.78 || iguales(tw, -0.78)) && (tw < 0.78 || iguales(tw, 0.78)) && !tapering) {
 			twist += _t;
 		}

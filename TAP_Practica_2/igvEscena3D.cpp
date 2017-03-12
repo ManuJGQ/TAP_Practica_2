@@ -58,19 +58,18 @@ void igvEscena3D::visualizar() {
 	//glLightfv(GL_LIGHT0,GL_POSITION,luz0); // la luz se coloca aquí si se mueve junto con la escena
 
 	glTranslated(movimiento.x, movimiento.y, movimiento.z);
-	glRotatef(giro.s, giro.x, giro.y, giro.z);
 
 	//Vertices cubo
 
-	Puntos x1 = {};
-	Puntos x2 = {};
-	Puntos x3 = {};
-	Puntos x4 = {};
+	Punto x1 = {};
+	Punto x2 = {};
+	Punto x3 = {};
+	Punto x4 = {};
 
-	Puntos x5 = {};
-	Puntos x6 = {};
-	Puntos x7 = {};
-	Puntos x8 = {};
+	Punto x5 = {};
+	Punto x6 = {};
+	Punto x7 = {};
+	Punto x8 = {};
 
 	if (!tapering) {
 		x1 = { -1.5f * cos(twist * 1.5f) - 1.5f * sin(twist * 1.5f), -1.5f * sin(twist * 1.5f) + 1.5f * cos(twist * 1.5f), 1.5f };
@@ -84,7 +83,7 @@ void igvEscena3D::visualizar() {
 		x8 = { -1.5f * cos(twist * -1.5f) + 1.5f * sin(twist * -1.5f), -1.5f * sin(twist * -1.5f) - 1.5f * cos(twist * -1.5f), -1.5f };
 	}
 	else {
-		double sz = (1.5f - 1.5f) / (1.5f + 1.5f);
+		float sz = (1.5f - 1.5f) / (1.5f + 1.5f);
 		x1 = { -1.5f * sz, 1.5f * sz, 1.5f };
 
 		sz = (1.5f - 1.5f) / (1.5f + 1.5f);

@@ -23,7 +23,7 @@ class igvInterfaz {
 	TAPLinearInterpolation linearInterpolation;
 	double pt;
 	double ut;
-	Puntos puntoActual;
+	Punto puntoActual;
 
 	// Interpolacion Esferica
 	TAPSphericalInterpolation sphericalInterpolation;
@@ -35,6 +35,11 @@ class igvInterfaz {
 
 	//Speed
 	TAPSpeedController velocidad;
+	float k1;
+	float k2;
+
+	//Controlador Movimiento
+	TAPMotionController movController;
 
 	bool pintarBezier;
 

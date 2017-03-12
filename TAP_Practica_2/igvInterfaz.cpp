@@ -32,20 +32,17 @@ igvInterfaz::igvInterfaz() {
 
 	animacion = false;
 
-	linearInterpolation = TAPLinearInterpolation("linearInterpolation.txt");
-	pt = linearInterpolation.getPrimeraT();
-	ut = linearInterpolation.getUltimoT();
-	puntoActual = linearInterpolation.getPosicionInterpolada(pt);
-
-	sphericalInterpolation = TAPSphericalInterpolation("sphericalInterpolation.txt");
-	spt = sphericalInterpolation.getPrimeraT();
-	sut = sphericalInterpolation.getUltimoT();
+	pt = 0.0f;
 
 	travelling = 0;
 
-	bezier = TAPBezier({ 0.0f, 0.0f, 0.0f }, { 20.0f, 2.0f, 0.0f }, { 0.0f, 10.0f, 0.0f }, { 10.0f, 0.0f, 0.0f });
+	bezier = TAPBezier({ 0.0f, 0.0f, 0.0f }, { 20.0f, 2.0f, 0.0f }, { 0.0f, 10.0f, 0.0f }, { 20.0f, 0.0f, 0.0f });
 
-	velocidad = TAPSpeedController(0.2f, 0.8f);
+	k1 = 0.2f;
+	k2 = 0.8f;
+	velocidad = TAPSpeedController(k1, k2);
+
+	movController = TAPMotionController(300, bezier, velocidad);
 
 	pintarBezier = true;
 }
@@ -129,10 +126,10 @@ void igvInterfaz::set_glutKeyboardFunc(unsigned char key, int x, int y) {
 		interfaz.escena.set_ejes(interfaz.escena.get_ejes() ? false : true);
 		break;
 	/*case '+':
-		interfaz.camara.zoom(5);
+		interfaz.velocidad.set_K1(interfaz.k1 + 0.1f);
 		break;
 	case '-':
-		interfaz.camara.zoom(-5);
+		interfaz.velocidad.set_K1(interfaz.k1 - 0.1f);
 		break;*/
 	case 27: // tecla de escape para SALIR
 		exit(1);
@@ -210,15 +207,18 @@ void igvInterfaz::set_glutIdleFunc() {
 	// incluir el código para animar el modelo de la manera más realista posible
 	if (interfaz.animacion) {
 		/***************************************************************
-		*					INTERPOLACION LINEAL					   *
+		*					INTERPOLACION MOVIMIENTO			       *
 		***************************************************************/
-		interfaz.pt += 0.01;
-		if (interfaz.pt > interfaz.ut) {
-			interfaz.pt = interfaz.linearInterpolation.getPrimeraT();
+		interfaz.pt += 0.005f;
+		if (interfaz.pt > 1.0f  + interfaz.k1 * interfaz.k2) {
+			interfaz.pt = 0.0f;
 		}
-		Puntos nuevoPunto = interfaz.linearInterpolation.getPosicionInterpolada(interfaz.pt);
+		Punto nuevoPunto = interfaz.movController.get_Punto(interfaz.pt);
 
-		Puntos movimiento;
+		std::cout << interfaz.pt << std::endl;
+		std::cout << nuevoPunto.x << " " << nuevoPunto.y << " " << nuevoPunto.z << std::endl;
+
+		Punto movimiento;
 		movimiento.x = nuevoPunto.x - interfaz.puntoActual.x;
 		movimiento.y = nuevoPunto.y - interfaz.puntoActual.y;
 		movimiento.z = nuevoPunto.z - interfaz.puntoActual.z;
@@ -232,17 +232,6 @@ void igvInterfaz::set_glutIdleFunc() {
 		//std::cout << movimiento.x << " " << movimiento.y << " " << movimiento.z << std::endl;
 
 		interfaz.escena.setMovimiento(nuevoPunto);
-
-		/***************************************************************
-		*					INTERPOLACION ESFERICA					   *
-		***************************************************************/
-		interfaz.spt += 0.01;
-		if (interfaz.spt > interfaz.sut) {
-			interfaz.spt = interfaz.sphericalInterpolation.getPrimeraT();
-		}
-		Quaternion nuevoGiro = interfaz.sphericalInterpolation.getPosicionInterpolada(interfaz.spt);
-
-		interfaz.escena.setGiro(nuevoGiro);
 
 		glutPostRedisplay();
 	}

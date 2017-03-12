@@ -65,7 +65,7 @@ void TAPSpeedController::pintarCurva(){
 	for (float i = 0.0f; i <= 1.0f; i += 0.001) {
 		float p = ease(i);
 		glPushMatrix();
-			glTranslatef(i * 10, p * 10, 0.0f);
+			glTranslatef(i * 10 - (k1 / 2), p * 10 - (k1 / 2), 0.0f);
 
 			glPushMatrix();
 				GLfloat color[] = { 1.0,0.0,0.0 };
@@ -79,7 +79,7 @@ void TAPSpeedController::pintarCurva(){
 	float p = ease(k1);
 
 	glPushMatrix();
-		glTranslatef(k1 * 10, p * 10, 0.0f);
+		glTranslatef(k1 * 10 - (k1 / 2), p * 10 - (k1 / 2), 0.0f);
 
 		glPushMatrix();
 			GLfloat color[] = { 0.0,0.0,0.0 };
@@ -92,7 +92,7 @@ void TAPSpeedController::pintarCurva(){
 	p = ease(k2);
 
 	glPushMatrix();
-		glTranslatef(k2 * 10, p * 10, 0.0f);
+		glTranslatef(k2 * 10 - (k1 / 2), p * 10 - (k1 / 2), 0.0f);
 
 		glPushMatrix();
 			GLfloat color4[] = { 0.0,0.0,0.0 };
