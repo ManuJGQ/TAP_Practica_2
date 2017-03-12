@@ -43,7 +43,11 @@ igvInterfaz::igvInterfaz() {
 
 	travelling = 0;
 
-	bezier = TAPBezier({ 0.0f, 2.0f, 0.0f }, { 3.0f, -2.0f, 0.0f }, { 5.0f, 20.0f, 0.0f }, { 3.0f, 4.0f, 0.0f });
+	bezier = TAPBezier({ 0.0f, 0.0f, 0.0f }, { 20.0f, 2.0f, 0.0f }, { 0.0f, 10.0f, 0.0f }, { 10.0f, 0.0f, 0.0f });
+
+	velocidad = TAPSpeedController(0.2f, 0.8f);
+
+	pintarBezier = true;
 }
 
 igvInterfaz::~igvInterfaz() {}
@@ -117,15 +121,19 @@ void igvInterfaz::set_glutKeyboardFunc(unsigned char key, int x, int y) {
 	// incluir aquí la activación de la animación
 		interfaz.animacion = (interfaz.animacion ? false : true);
 		break;
+	case 'B':
+	case 'b':
+		interfaz.pintarBezier = (interfaz.pintarBezier ? false : true);
+		break;
 	case 'e': // activa/desactiva la visualizacion de los ejes
 		interfaz.escena.set_ejes(interfaz.escena.get_ejes() ? false : true);
 		break;
-	case '+':
+	/*case '+':
 		interfaz.camara.zoom(5);
 		break;
 	case '-':
 		interfaz.camara.zoom(-5);
-		break;
+		break;*/
 	case 27: // tecla de escape para SALIR
 		exit(1);
 		break;
@@ -175,7 +183,8 @@ void igvInterfaz::set_glutDisplayFunc() {
 	// aplica las transformaciones en función de los parámetros de la cámara y del modo (visualización o selección)
 	interfaz.camara.aplicar();
 
-	interfaz.bezier.pintarCurva();
+	if(interfaz.pintarBezier)interfaz.bezier.pintarCurva();
+	else interfaz.velocidad.pintarCurva();
 
 	// visualiza la escena
 	interfaz.escena.visualizar();
@@ -186,6 +195,16 @@ void igvInterfaz::set_glutDisplayFunc() {
 
 }
 
+void igvInterfaz::set_glutMouseFunc(GLint boton, GLint estado, GLint x, GLint y) {
+		if (boton == 3) {
+			interfaz.camara.zoom(5);
+		}
+		if (boton == 4) {
+			interfaz.camara.zoom(-5);
+		}
+
+		glutPostRedisplay();
+}
 
 void igvInterfaz::set_glutIdleFunc() {
 	// incluir el código para animar el modelo de la manera más realista posible
@@ -235,4 +254,5 @@ void igvInterfaz::inicializa_callbacks() {
 	glutDisplayFunc(set_glutDisplayFunc);
 	glutIdleFunc(set_glutIdleFunc);
 	glutSpecialFunc(SpecialInput);
+	glutMouseFunc(set_glutMouseFunc);
 }

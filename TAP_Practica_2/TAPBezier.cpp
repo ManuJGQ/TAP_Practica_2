@@ -75,38 +75,65 @@ float TAPBezier::distancia(float u1, float u2) {
 * Funcion encargada de pintar la Curva de Bezier en cuestion
 */
 void TAPBezier::pintarCurva() {
+	for (float i = 0.0f; i <= 1.0f; i += 0.001) {
+		Punto p = getPunto(i);
+		glPushMatrix();
+			glTranslatef(p.x, p.y, p.z);
+
+			glPushMatrix();
+				GLfloat color[] = { 1.0,0.0,0.0 };
+				glMaterialfv(GL_FRONT, GL_EMISSION, color);
+
+				glutSolidSphere(0.1, 20, 20);
+			glPopMatrix();
+		glPopMatrix();
+	}
+
 	glPushMatrix();
-		glColor3f(1.0f, 0.0f, 0.0f);
-		glPointSize(5.0f);
+		glTranslatef(A.x, A.y, A.z);
 
-		glBegin(GL_POINTS);
+		glPushMatrix();
+			GLfloat color[] = { 0.0,0.0,0.0 };
+			glMaterialfv(GL_FRONT, GL_EMISSION, color);
 
-			for (float i = 0.0f; i <= 1.0f; i += 0.00001) {
-				Punto p = getPunto(i);
+			glutSolidSphere(0.5, 20, 20);
+		glPopMatrix();
+	glPopMatrix();
 
-				glColor3f(1, 1, 0);
-				glVertex3f(p.x, p.y, p.z);
-			}
-		glEnd();
+
+	glPushMatrix();
+		glTranslatef(C0.x, C0.y, C0.z);
+
+		glPushMatrix();
+			GLfloat color2[] = { 0.0,0.0,1.0 };
+			glMaterialfv(GL_FRONT, GL_EMISSION, color2);
+
+			glutSolidSphere(0.5, 20, 20);
+		glPopMatrix();
 	glPopMatrix();
 
 	glPushMatrix();
-		glPointSize(10.0f);
+		glTranslatef(C1.x, C1.y, C1.z);
 
-		glBegin(GL_POINTS);
-			glColor3f(1, 1, 0);
-			glVertex3f(A.x, A.y, A.z);
+		glPushMatrix();
+			GLfloat color3[] = { 0.0,0.0,1.0 };
+			glMaterialfv(GL_FRONT, GL_EMISSION, color3);
 
-			glColor3f(1, 1, 0);
-			glVertex3f(C0.x, C0.y, C0.z);
-
-			glColor3f(1, 1, 0);
-			glVertex3f(C1.x, C1.y, C1.z);
-
-			glColor3f(1, 1, 0);
-			glVertex3f(B.x, B.y, B.z);
-		glEnd();
+			glutSolidSphere(0.5, 20, 20);
+		glPopMatrix();
 	glPopMatrix();
+
+	glPushMatrix();
+		glTranslatef(B.x, B.y, B.z);
+
+		glPushMatrix();
+			GLfloat color4[] = { 0.0,0.0,0.0 };
+			glMaterialfv(GL_FRONT, GL_EMISSION, color4);
+
+			glutSolidSphere(0.5, 20, 20);
+		glPopMatrix();
+	glPopMatrix();
+
 }
 
 /**

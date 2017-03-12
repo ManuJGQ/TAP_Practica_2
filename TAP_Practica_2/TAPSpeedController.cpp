@@ -1,5 +1,7 @@
 #include "TAPSpeedController.h"
 
+#include <glut.h>
+#include <iostream>
 #include <math.h>
 
 static float PI = 3.14159265359;
@@ -60,7 +62,45 @@ void TAPSpeedController::actualizarF(){
 
 
 void TAPSpeedController::pintarCurva(){
+	for (float i = 0.0f; i <= 1.0f; i += 0.001) {
+		float p = ease(i);
+		glPushMatrix();
+			glTranslatef(i * 10, p * 10, 0.0f);
 
+			glPushMatrix();
+				GLfloat color[] = { 1.0,0.0,0.0 };
+				glMaterialfv(GL_FRONT, GL_EMISSION, color);
+
+				glutSolidSphere(0.1, 20, 20);
+			glPopMatrix();
+		glPopMatrix();
+	}
+
+	float p = ease(k1);
+
+	glPushMatrix();
+		glTranslatef(k1 * 10, p * 10, 0.0f);
+
+		glPushMatrix();
+			GLfloat color[] = { 0.0,0.0,0.0 };
+			glMaterialfv(GL_FRONT, GL_EMISSION, color);
+
+			glutSolidSphere(0.5, 20, 20);
+		glPopMatrix();
+	glPopMatrix();
+
+	p = ease(k2);
+
+	glPushMatrix();
+		glTranslatef(k2 * 10, p * 10, 0.0f);
+
+		glPushMatrix();
+			GLfloat color4[] = { 0.0,0.0,0.0 };
+			glMaterialfv(GL_FRONT, GL_EMISSION, color4);
+
+			glutSolidSphere(0.5, 20, 20);
+		glPopMatrix();
+	glPopMatrix();
 }
 
 /**

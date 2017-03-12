@@ -33,6 +33,11 @@ class igvInterfaz {
 	//Bezier
 	TAPBezier bezier;
 
+	//Speed
+	TAPSpeedController velocidad;
+
+	bool pintarBezier;
+
 	int travelling;
 protected:
 	// Atributos
@@ -74,6 +79,8 @@ public:
 	static void set_glutIdleFunc(); // método para animar la escena
 
 	static void SpecialInput(int key, int x, int y);
+
+	static void set_glutMouseFunc(GLint boton, GLint estado, GLint x, GLint y); //RATON
 
 	// Metodos
 
