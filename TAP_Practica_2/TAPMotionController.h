@@ -24,6 +24,8 @@ public:
 
 	Punto get_Punto(float t);
 
+	float get_Twist(float t);
+
 	void set_nEntradasTable(int _n) {
 		nEntradasTabla = _n;
 		construirTablaIncrementos();

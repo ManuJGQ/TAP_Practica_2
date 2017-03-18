@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include "TAPMotionController.h"
+#include "TAPSphericalInterpolation.h"
 
 #define Epsilon 0.000001
 
@@ -16,6 +17,8 @@ using namespace std;
 
 class igvEscena3D {
 	Punto movimiento;
+
+	Quaternion giro;
 
 	float twist;
 protected:	
@@ -32,6 +35,13 @@ public:
 	// método con las llamadas OpenGL para visualizar la escena
 	void visualizar(void);
 
+	void setGiro(Quaternion _giro) {
+		giro.s = _giro.s;
+		giro.x = _giro.x;
+		giro.y = _giro.y;
+		giro.z = _giro.z;
+	}
+
 	void setMovimiento(Punto _mov) {
 		movimiento.x = _mov.x;
 		movimiento.y = _mov.y;
@@ -39,9 +49,9 @@ public:
 	}
 
 	void setTwist(float _t) {
-		float tw = twist + _t;
-		if ((tw > -0.78 || iguales(tw, -0.78)) && (tw < 0.78 || iguales(tw, 0.78)) && !tapering) {
-			twist += _t;
+		float tw = _t;
+		if ((tw > -0.7 || iguales(tw, -0.7)) && (tw < 0.7 || iguales(tw, 0.7)) && !tapering) {
+			twist = _t;
 		}
 	}
 

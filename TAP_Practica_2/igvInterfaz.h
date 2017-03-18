@@ -31,6 +31,12 @@ class igvInterfaz {
 	//Controlador Movimiento
 	TAPMotionController movController;
 
+	//Interpolacion Esferica
+	TAPSphericalInterpolation sphericalInterpolation;
+
+	//Deformacion
+	float twist;
+
 	char opcion;
 
 	bool pintarBezier;

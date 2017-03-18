@@ -1,7 +1,7 @@
 #include "TAPBezier.h"
 
 #include <glui.h>
-
+#include <fstream>
 #include <math.h>
 
 /**
@@ -29,7 +29,63 @@ TAPBezier::TAPBezier(Punto _a, Punto _c0, Punto _c1, Punto _b) {
 * Linea 4: Punto B
 */
 TAPBezier::TAPBezier(std::string ficheroTXT) {
-	//to do: cargar por fichero
+	int coma;
+	std::string linea_actual;
+
+	std::string sP;
+	Punto P;
+	int i = 0;
+
+	try {
+		std::ifstream archivoBezier;
+		archivoBezier.open(ficheroTXT);
+
+		if (!archivoBezier.good()) throw std::string("No se puedo leer el archivo");
+
+		while (std::getline(archivoBezier, linea_actual)) {
+			coma = linea_actual.find(',');
+
+			sP = linea_actual;
+
+			P.x = std::stod(sP.substr(0, coma));
+
+			sP = sP.substr(coma + 1, sP.length());
+
+			coma = sP.find(',');
+
+			P.y = std::stod(sP.substr(0, coma));
+
+			sP = sP.substr(coma + 1, sP.length());
+
+			coma = sP.find(',');
+
+			P.z = std::stod(sP.substr(0, coma));
+
+			sP = sP.substr(coma + 1, sP.length());
+
+			//std::cout << T << " - " << V.x << "," << V.y << "," << V.z << "," << std::endl;
+
+			if (i == 0) {
+				A = P;
+			}
+			if (i == 1) {
+				C0 = P;
+			}
+			if (i == 2) {
+				C1 = P;
+			}
+			if (i == 3) {
+				B = P;
+			}
+
+			i++;
+
+		}
+
+	}
+	catch (std::string &e) {
+		throw e;
+	}
 }
 
 /**

@@ -37,7 +37,7 @@ TAPMotionController::TAPMotionController(const TAPMotionController & motioncontr
 * posteriormente la poscion p en el instante t
 */
 void TAPMotionController::construirTablaIncrementos(){
-	std::cout << "ENTRO" << std::endl;
+	//std::cout << "ENTRO" << std::endl;
 	tablaIncrementos.clear();
 	
 	float incremento = 1.0f / (float)(nEntradasTabla - 1);
@@ -61,9 +61,9 @@ void TAPMotionController::construirTablaIncrementos(){
 		uAcumulada = u;
 	}
 
-	for (int j = 0; j < tablaIncrementos.size(); j++) {
+	/*for (int j = 0; j < tablaIncrementos.size(); j++) {
 		std::cout << tablaIncrementos[j].first << " --- " << tablaIncrementos[j].second << std::endl;
-	}
+	}*/
 }
 
 /**
@@ -97,9 +97,19 @@ Punto TAPMotionController::get_Punto(float t){
 
 	//std::cout << s << " - " << ind << " - " << u << std::endl;
 
-	std::cout << (float)ind * incremento << std::endl;
+	//std::cout << (float)ind * incremento << std::endl;
 
 	return desplazamiento.getPunto((float)ind * incremento);
+}
+
+float TAPMotionController::get_Twist(float t){
+	float incremento = 1.0f / (float)nEntradasTabla;
+
+	float s = velocidad.ease(t) * tablaIncrementos[nEntradasTabla].first / velocidad.ease(1.0f);
+
+	int ind = get_Indice(s);
+
+	return (float)ind * incremento;
 }
 
 /**

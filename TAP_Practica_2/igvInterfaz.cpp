@@ -34,11 +34,15 @@ igvInterfaz::igvInterfaz() {
 
 	pt = 0.0f;
 
-	bezier = TAPBezier({ 0.0f, 0.0f, 0.0f }, { 20.0f, 2.0f, 0.0f }, { 0.0f, 10.0f, 0.0f }, { 20.0f, 0.0f, 0.0f });
+	bezier = TAPBezier("bezier.txt");
 
 	velocidad = TAPSpeedController(0.2f, 0.5f);
 
-	movController = TAPMotionController(300, bezier, velocidad);
+	movController = TAPMotionController(3000, bezier, velocidad);
+
+	twist = 0.0f;
+
+	sphericalInterpolation = TAPSphericalInterpolation("sphericalInterpolation.txt");
 
 	pintarBezier = true;
 }
@@ -51,7 +55,7 @@ igvInterfaz::~igvInterfaz() {}
 void igvInterfaz::crear_mundo(void) {
 	//// Apartado B: establecer los parámetros de la cámara en función de la escena concreta que se esté modelando
 	interfaz.camara.set(IGV_PARALELA, interfaz.get_vistas(interfaz.i), igvPunto3D(0, 0, 0), interfaz.get_va(),
-		-1 * 5, 1 * 5, -1 * 5, 1 * 5, interfaz.planos[1], 200);
+		-1 * 20, 1 * 20, -1 * 20, 1 * 20, interfaz.planos[1], 2000);
 }
 
 void igvInterfaz::configura_entorno(int argc, char** argv,
@@ -195,12 +199,14 @@ void igvInterfaz::set_glutIdleFunc() {
 	// incluir el código para animar el modelo de la manera más realista posible
 	if (interfaz.animacion) {
 		/***************************************************************
-		*					INTERPOLACION MOVIMIENTO			       *
+		*		     INTERPOLACION MOVIMIENTO & DEFORMACION			   *
 		***************************************************************/
 		
 		Punto nuevoPunto = interfaz.movController.get_Punto(interfaz.pt);
 
-		interfaz.pt += 0.0025f;
+		interfaz.twist = interfaz.movController.get_Twist(interfaz.pt);
+
+		interfaz.pt += 0.01f;
 		if (interfaz.pt >= 1.0f) {
 			interfaz.pt = 0.0f;
 		}
@@ -221,7 +227,14 @@ void igvInterfaz::set_glutIdleFunc() {
 		//std::cout << nuevoPunto.x << " " << nuevoPunto.y << " " << nuevoPunto.z << std::endl;
 		//std::cout << movimiento.x << " " << movimiento.y << " " << movimiento.z << std::endl;
 
+		//std::cout << interfaz.twist << std::endl;
+
 		interfaz.escena.setMovimiento(nuevoPunto);
+		interfaz.escena.setTwist(interfaz.twist * 0.7f);
+
+		Quaternion nuevoGiro = interfaz.sphericalInterpolation.getPosicionInterpolada(interfaz.twist * interfaz.sphericalInterpolation.getUltimoT());
+
+		interfaz.escena.setGiro(nuevoGiro);
 
 		glutPostRedisplay();
 	}

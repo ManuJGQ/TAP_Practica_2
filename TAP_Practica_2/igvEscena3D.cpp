@@ -58,6 +58,7 @@ void igvEscena3D::visualizar() {
 	//glLightfv(GL_LIGHT0,GL_POSITION,luz0); // la luz se coloca aquí si se mueve junto con la escena
 
 	glTranslated(movimiento.x, movimiento.y, movimiento.z);
+	glRotatef(giro.s, giro.x, giro.y, giro.z);
 
 	//Vertices cubo
 
